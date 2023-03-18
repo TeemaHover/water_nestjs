@@ -49,7 +49,7 @@ export class AuthController {
         }
       }
       const token = await this.service.signPayload(user.phone);
-      return { user, token };
+      return {  token };
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.FORBIDDEN);
     }
@@ -58,10 +58,11 @@ export class AuthController {
   async login(@Body() dto: LoginDto) {
     let user = await this.service.validateUser(dto.phone);
     if (!user) throw new HttpException('wrong phone', HttpStatus.FORBIDDEN);
+
     const checkPassword = this.checkPassword(dto.password, user.password);
     if (checkPassword) {
       const token = await this.service.signPayload(user.phone);
-      return { user, token };
+      return {  token };
     } else {
       throw new HttpException('wrong password', HttpStatus.UNAUTHORIZED);
     }
