@@ -1,13 +1,13 @@
 import {
-    Body,
-    Controller,
-    Get,
-    HttpException,
-    HttpStatus,
-    Param,
-    Patch,
-    Put,
-    Query, Request, UseGuards
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Patch,
+  Put,
+  Query, Request, UseGuards
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ApiBearerAuth, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
@@ -53,6 +53,9 @@ export class UserController {
     return this.service.getUserById(user['_id'])
   }
 
+
+  
+
   @Get('/:id')
   @ApiQuery({ name: 'comment' })
   @ApiQuery({ name: 'rating' })
@@ -85,6 +88,21 @@ export class UserController {
     } catch (error) {
       throw new HttpException(error, 500);
     }
+  }
+
+  @Get('suggest/lawyer') 
+  async getSuggestedLawyers(@Request() {user}) {
+
+    let lawyers = await this.model.find({userType: UserType.lawyer, ratingAvg: {$gt: 3} }, null, {sort: {ratingAvg: -1}})
+    return lawyers
+  }
+
+  @Get('suggest/lawyer/:id') 
+  @ApiParam({name: 'id'})
+  async getSuggestedLawyersByService(@Request() {user}, @Param('id') id: string ) {
+
+    let lawyers = await this.model.find({userType: UserType.lawyer, 'availableDays.serviceId':  {$in: [id] }}, null, {sort: {ratingAvg: -1}})
+    return lawyers
   }
 
 
@@ -120,4 +138,5 @@ export class UserController {
         throw new HttpException(error, 500)
     }
   }
+ 
 }
