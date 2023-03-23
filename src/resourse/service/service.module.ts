@@ -1,5 +1,4 @@
-import {  Module } from "@nestjs/common";
-import { JwtModule } from "@nestjs/jwt/dist";
+import { Module } from "@nestjs/common";
 
 import { MongooseModule } from "@nestjs/mongoose";
 import { Service, ServiceSchema } from "src/schema";
