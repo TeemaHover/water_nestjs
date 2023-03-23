@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document } from "mongoose";
 import { ServiceStatus, ServiceType } from "src/utils/enum";
+import { Service } from "./service.schema";
 import { User } from "./user.schema";
 
 
@@ -17,6 +18,9 @@ export class Order  {
 
     @Prop({type: mongoose.Types.ObjectId, ref: "users"})
     lawyerId: User
+
+    @Prop({type: mongoose.Types.ObjectId, ref: "users"})
+    serviceId: Service
 
     @Prop()
     location?: string

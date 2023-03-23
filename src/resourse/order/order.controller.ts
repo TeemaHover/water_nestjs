@@ -20,14 +20,16 @@ export class OrderController {
   async createOrder(@Request() {user}, @Param('isClient') isClient: boolean,  @Body() dto: OrderDto) {
     try {
       if(!user) throw new HttpException('error', HttpStatus.UNAUTHORIZED)
-     
+      let lawyerId = new mongoose.Types.ObjectId(dto.lawyerId)
+      let clientId = new mongoose.Types.ObjectId(dto.clientId)
       let order = await this.model.create({
-        clientId: isClient ? user['_id'] : mongoose.Types.ObjectId(dto.clientId),
+        clientId: isClient ? user['_id'] : clientId,
         date: dto.date,
-        lawyerId: isClient ? mongoose.Types.ObjectId(dto.lawyerId) : user['_id'],
+        lawyerId: isClient ? lawyerId : user['_id'],
         location: dto.location,
         expiredTime: dto.expiredTime,
         serviceStatus: dto.serviceStatus,
+        serviceId: dto.serviceId,
         serviceType: dto.serviceType,
         userToken: dto.userToken,
         lawyerToken: dto.lawyerToken

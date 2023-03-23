@@ -13,6 +13,9 @@ export class OrderDto {
   @ApiProperty()
   @IsString()
   lawyerId: string;
+  @ApiProperty()
+  @IsString()
+  serviceId: string;
 
   @ApiProperty()
   location?: string;
