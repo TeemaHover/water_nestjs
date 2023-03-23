@@ -34,7 +34,9 @@ export class Order  {
     channelName: string
     
     @Prop({required: true})
-    channelToken: string
+    userToken: string
+    @Prop({required: true})
+    lawyerToken: string
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order)

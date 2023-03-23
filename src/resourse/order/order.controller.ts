@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put, Query, Request, UseGuards } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { ApiBearerAuth, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
-import { Model } from "mongoose";
+import mongoose, { Model } from "mongoose";
 import { UserAccessGuard } from "src/guard/auth.guard";
 import { Order, OrderDocument } from "src/schema";
 import { ServiceStatus, UserType } from "src/utils/enum";
@@ -22,21 +22,52 @@ export class OrderController {
       if(!user) throw new HttpException('error', HttpStatus.UNAUTHORIZED)
      
       let order = await this.model.create({
-        clientId: isClient ? user['_id'] : dto.clientId,
+        clientId: isClient ? user['_id'] : mongoose.Types.ObjectId(dto.clientId),
         date: dto.date,
-        lawyerId: isClient ? dto.lawyerId : user['_id'],
+        lawyerId: isClient ? mongoose.Types.ObjectId(dto.lawyerId) : user['_id'],
         location: dto.location,
         expiredTime: dto.expiredTime,
         serviceStatus: dto.serviceStatus,
         serviceType: dto.serviceType,
-        channelName: dto.channelName,
-        channelToken: dto.channelToken
+        userToken: dto.userToken,
+        lawyerToken: dto.lawyerToken
       }) 
       return order
     } catch (error) {
       throw new HttpException(error, 500)
     }
   }
+
+  @Get('token/:id/:channelName/:token')
+  @ApiParam({name: 'id'})
+  @ApiParam({name: 'channelName'})
+  @ApiQuery({name: 'token'})
+  async setOrderToken(@Request() {user}, @Param('id') id: string, @Param('channelName') channelName: string, @Query('token') token: string) {
+    if(!user) throw new HttpException('error', HttpStatus.UNAUTHORIZED)
+    try {
+      if(user['userType'] == UserType.user) {
+        let order = await this.model.findById(id)
+        order.channelName = channelName;
+        order.userToken = token;
+        await order.save()
+        return true
+      } else {
+        if(user['userType'] == UserType.lawyer) {
+          let order = await this.model.findById(id)
+          order.channelName = channelName;
+          order.lawyerToken = token;
+          await order.save()
+          return true
+        } else {
+          return
+        }
+      }
+    } catch (error) {
+      throw new HttpException(error, 500)
+    }
+    
+  }
+
 
   @Get()
   async allOrders(@Request() {user}) {
