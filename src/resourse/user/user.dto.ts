@@ -19,7 +19,7 @@ export class ServiceTime {
   @ApiProperty()
   date: number
   @ApiProperty({isArray: true})
-  tiem: string[]
+  time: string[]
 }
 
 export class ServiceTypeTime {
