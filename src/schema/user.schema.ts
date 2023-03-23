@@ -7,18 +7,26 @@ import { Service } from "./service.schema";
 
 export type UserDocument = Document & User
 
+export class AvailableTime {
 
+  @Prop({required: true})
+  day: string
+  @Prop({required: true})
+  time: string[]
+  @Prop({required: true})
+  date: number
+}
 
 export class AvailableDay {
   @Prop({required: true})
-  date: Date
+  date: string
   
   @Prop({required: true, type: mongoose.Types.ObjectId, ref: "services"})
   serviceId: Service
   @Prop({ type: Array, enum: ServiceType,  required: true })
   serviceType: ServiceType[]
   @Prop({type: Array, required: true})
-  time: Date[]
+  time: AvailableTime[]
 }
 
 @Schema({timestamps: true})

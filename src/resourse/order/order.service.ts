@@ -11,7 +11,7 @@ export class OrderService {
 
   async getUserOrders(id: string) {
     try {
-      let orders = await this.model.find({$or: [{lawyerId: id}, {clientId: id}]}).populate('clientId', 'firstname lastname phone ', this.userModel  ).populate('lawyerId', 'firstname lastname phone profileImg', this.userModel  )
+      let orders = await this.model.find({$or: [{lawyerId: id}, {clientId: id}]}).populate('clientId', 'firstname lastname phone '  , this.userModel  ).populate('lawyerId', 'firstname lastname phone profileImg availableDays', this.userModel  )
       return orders
     } catch (error) {
       throw new HttpException(error, 500)
