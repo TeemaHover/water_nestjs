@@ -124,7 +124,7 @@ export class UserController {
   }
 
   @Patch('available')
-  async updateLawyerAvailableDays(@Request() {user}, @Body() dto: Array<AvailableDay >) {
+  async updateLawyerAvailableDays(@Request() {user}, @Body() dto:AvailableDay ) {
       if (!user) throw new HttpException('error', HttpStatus.UNAUTHORIZED);
     try {
         
