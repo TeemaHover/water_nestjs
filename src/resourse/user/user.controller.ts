@@ -54,6 +54,16 @@ export class UserController {
   }
 
 
+  @Get('user/:id')
+  @ApiParam({name: 'id'})
+  async getUser(@Request() {user}, @Param('id') id) {
+    try {
+      let user = await this.model.findById(id)
+      return user
+    } catch (error) {
+      throw new HttpException(error, 500)
+    }
+  }
   
 
   @Get('/:id')
