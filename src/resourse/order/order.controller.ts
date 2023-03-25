@@ -22,6 +22,7 @@ export class OrderController {
       if(!user) throw new HttpException('error', HttpStatus.UNAUTHORIZED)
       let lawyerId = new mongoose.mongo.ObjectId(dto.lawyerId)
       let clientId = new mongoose.mongo.ObjectId(dto.clientId)
+      let serviceId = new mongoose.mongo.ObjectId(dto.serviceId)
       let order = await this.model.create({
         clientId: isClient ? user['_id'] : clientId,
         date: dto.date,
@@ -29,7 +30,7 @@ export class OrderController {
         location: dto.location,
         expiredTime: dto.expiredTime,
         serviceStatus: dto.serviceStatus,
-        serviceId: dto.serviceId,
+        serviceId: serviceId,
         serviceType: dto.serviceType,
         userToken: dto.userToken,
         lawyerToken: dto.lawyerToken,
