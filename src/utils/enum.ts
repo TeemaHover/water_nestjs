@@ -19,6 +19,7 @@ export enum ServiceType {
 
 export enum ServiceStatus {
   pending = 'pending',
-  success = 'success',
+  active = 'active',
   cancelled = 'cancelled',
+  finished = 'finished'
 }

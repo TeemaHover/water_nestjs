@@ -11,10 +11,21 @@ export class OrderService {
 
   async getUserOrders(id: string) {
     try {
-      let orders = await this.model.find({$or: [{lawyerId: id}, {clientId: id}]}).populate('clientId', 'firstname lastname phone ', this.userModel  ).populate('lawyerId', 'firstname lastname phone profileImg', this.userModel  )
+      let date = Date.now() - 60*60*1000
+      let orders = await this.model.find({$and: [{$or: [{lawyerId: id}, {clientId: id}]}, {$or:[{serviceStatus: ServiceStatus.active}, {serviceStatus: ServiceStatus.pending}]}, {date: {$gte: date}}]}).populate('clientId', 'firstname lastname phone ', this.userModel  ).populate('lawyerId', 'firstname lastname phone profileImg', this.userModel  )
+      
       return orders
     } catch (error) {
-      throw new HttpException(error, 500)
+      console.error(error)
+      throw new HttpException('error', 500)
+    }
+  }
+
+  async checkOrders() {
+    try {
+return await ''
+    } catch (err) {
+      throw new HttpException('err', 500 )
     }
   }
 
