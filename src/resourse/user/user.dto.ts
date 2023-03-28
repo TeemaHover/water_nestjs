@@ -13,20 +13,29 @@ export class RatingDto {
   rating: number;
 }
 
+export class ServiceTime {
+  @ApiProperty()
+  day: string
+  @ApiProperty()
+  date: number
+  @ApiProperty({isArray: true})
+  time: string[]
+}
+
 export class ServiceTypeTime {
   @ApiProperty({
     enum: ServiceType,
     }) 
   serviceType: ServiceType
-  @ApiProperty({ isArray: true, type: String })
+  @ApiProperty({ isArray: true, type: ServiceTime })
   @IsArray()
-  time: string[];
+  time: ServiceTime[];
 }
 
 export class AvailableDay {
 
   @ApiProperty()
-  @IsString()
+
   date: string;
   
   @ApiProperty({type: ServiceTypeTime, isArray: true})

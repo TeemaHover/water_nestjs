@@ -13,6 +13,9 @@ export class OrderDto {
   @ApiProperty()
   @IsString()
   lawyerId: string;
+  @ApiProperty()
+  @IsString()
+  serviceId: string;
 
   @ApiProperty()
   location?: string;
@@ -36,5 +39,8 @@ export class OrderDto {
 
   @ApiProperty()
   @IsString()
-  channelToken: string;
+  userToken: string;
+  @ApiProperty()
+  @IsString()
+  lawyerToken: string;
 }

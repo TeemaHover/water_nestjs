@@ -54,6 +54,16 @@ export class UserController {
   }
 
 
+  @Get('user/:id')
+  @ApiParam({name: 'id'})
+  async getUserById(@Request() {user}, @Param('id') id) {
+    try {
+      let user = await this.model.findById(id)
+      return user
+    } catch (error) {
+      throw new HttpException(error, 500)
+    }
+  }
   
 
   @Get('/:id')
@@ -124,7 +134,7 @@ export class UserController {
   }
 
   @Patch('available')
-  async updateLawyerAvailableDays(@Request() {user}, @Body() dto: Array<AvailableDay >) {
+  async updateLawyerAvailableDays(@Request() {user}, @Body() dto:AvailableDay ) {
       if (!user) throw new HttpException('error', HttpStatus.UNAUTHORIZED);
     try {
         
