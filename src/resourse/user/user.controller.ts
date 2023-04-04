@@ -124,6 +124,8 @@ export class UserController {
             experience: dto.experience,
             availableDays: dto.availableDays,
             experiences: dto.experiences,
+            userStatus: UserStatus.pending,
+            userType: UserType.lawyer,
             bio: dto.bio,
             profileImg: dto.profileImg
         })

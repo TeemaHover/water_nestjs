@@ -14,6 +14,9 @@ export class PriceServiceDto {
     @ApiProperty()
     @IsString()
     expiredTime: String;
+
+    @ApiProperty()
+    user: string
   
 } 
 export class PriceDto {

@@ -38,14 +38,13 @@ export class PriceController {
   async updatePrice(@Request() {user}, @Param('id') id: string,  @Body() dto: PriceDto ) {
     try {
       if(!user) throw new HttpException('error', HttpStatus.UNAUTHORIZED)
-      if(user.userType == "admin") {
+  
          await this.model.findByIdAndUpdate(id, {
           serviceId: dto.serviceId,
           servicePrice: dto.priceService
         })
         return true
-      }
-      return 
+ 
     } catch (error) {
       throw new HttpException(error, 500)
     }
