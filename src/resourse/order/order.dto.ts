@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsString, ValidateIf } from 'class-validator';
 import { ServiceStatus, ServiceType } from 'src/utils/enum';
 
 export class OrderDto {
@@ -12,10 +12,11 @@ export class OrderDto {
 
   @ApiProperty()
   @IsString()
-  lawyerId: string;
+  lawyerId: string ;
   @ApiProperty()
   @IsString()
-  serviceId: string;
+  @ValidateIf((object, value) => value !== null)
+  serviceId: string | null;
 
   @ApiProperty()
   location?: string;

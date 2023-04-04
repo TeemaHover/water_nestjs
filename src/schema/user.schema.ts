@@ -1,11 +1,23 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document } from "mongoose";
 import { ServiceType, UserStatus, UserType } from "src/utils/enum";
+import { ServicePrice } from "./price.schema";
 import { Rating } from "./rating.schema";
 import { Service } from "./service.schema";
 
 
 export type UserDocument = Document & User
+
+
+export class ExperienceUser  {
+  @Prop()
+  link: string
+  @Prop()
+  date: string
+  @Prop() 
+  title: string
+
+}
 
 export class AvailableTime {
 
@@ -17,25 +29,32 @@ export class AvailableTime {
   date: number
 }
 
-export class AvailableDay {
-  @Prop({required: true})
-  date: string
+export class UserServiceType {
+  @Prop({ type: String, enum: ServiceType,  required: true })
+  serviceType: ServiceType
+  @Prop({type: mongoose.Types.ObjectId, ref: 'prices'})
+  price: ServicePrice
   
+  @Prop([AvailableTime])
+  time?: AvailableTime[]
+
+}
+export class UserServices {
+  
+
   @Prop({required: true, type: mongoose.Types.ObjectId, ref: "services"})
   serviceId: Service
-  @Prop({ type: Array, enum: ServiceType,  required: true })
-  serviceType: ServiceType[]
-  @Prop({type: Array, required: true})
-  time: AvailableTime[]
+  @Prop([ UserServiceType])
+  serviceTypes?: UserServiceType[]
 }
 
 @Schema({timestamps: true})
 export class User  {
     @Prop({required: true})
-    firstname: string
+    firstName: string
 
     @Prop({required: true})
-    lastname: string
+    lastName: string
 
     @Prop({required: true})
     phone: string
@@ -48,6 +67,9 @@ export class User  {
 
     @Prop()
     experience?: number
+
+    @Prop()
+    experiences?: ExperienceUser[]
     
     @Prop()
     bio?: String
@@ -64,8 +86,8 @@ export class User  {
     @Prop({ type: String, enum: UserStatus, default: UserStatus.pending, required: true })
     userStatus: UserStatus;
 
-    @Prop()
-    availableDays?: AvailableDay[] 
+    @Prop([ UserServices])
+    userServices?: UserServices[] 
 
 
 }

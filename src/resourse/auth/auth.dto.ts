@@ -8,12 +8,12 @@ export class RegisterDto {
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
-    firstname: string
+    firstName: string
 
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
-    lastname: string
+    lastName: string
 
     @ApiProperty()
     @IsString()
@@ -31,17 +31,6 @@ export class RegisterDto {
         default: UserType.user
     })
     userType: UserType;
-
-
-    @ApiProperty()
-    experience: number
-    
-    @ApiProperty()
-    bio: string
-
-    @ApiProperty()
-    profileImg: string
-
 }
 
 export class LoginDto {

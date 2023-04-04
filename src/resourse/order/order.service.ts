@@ -12,7 +12,7 @@ export class OrderService {
   async getUserOrders(id: string) {
     try {
       let date = Date.now() - 60*60*1000
-      let orders = await this.model.find({$and: [{$or: [{lawyerId: id}, {clientId: id}]}, {$or:[{serviceStatus: ServiceStatus.active}, {serviceStatus: ServiceStatus.pending}]}, {date: {$gte: date}}]}).populate('clientId', 'firstname lastname phone ', this.userModel  ).populate('lawyerId', 'firstname lastname phone profileImg', this.userModel  )
+      let orders = await this.model.find({$and: [{$or: [{lawyerId: id}, {clientId: id}]}, {$or:[{serviceStatus: ServiceStatus.active}, {serviceStatus: ServiceStatus.pending}]}, {date: {$gte: date}}]}).populate('clientId', 'firstName lastName phone ', this.userModel  ).populate('lawyerId', 'firstName lastName phone profileImg', this.userModel  )
       
       return orders
     } catch (error) {

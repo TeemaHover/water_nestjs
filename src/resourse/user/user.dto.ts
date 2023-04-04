@@ -13,6 +13,15 @@ export class RatingDto {
   rating: number;
 }
 
+export class ExperienceUser  {
+  @ApiProperty()
+  link: string
+  @ApiProperty()
+  date: number
+  @ApiProperty() 
+  title: string
+}
+
 export class ServiceTime {
   @ApiProperty()
   day: string
@@ -30,16 +39,18 @@ export class ServiceTypeTime {
   @ApiProperty({ isArray: true, type: ServiceTime })
   @IsArray()
   time: ServiceTime[];
+
+  @ApiProperty()
+  price: string
 }
 
 export class AvailableDay {
 
-  @ApiProperty()
 
-  date: string;
   
   @ApiProperty({type: ServiceTypeTime, isArray: true})
-  serviceTypeTime: ServiceTypeTime[]
+  serviceTypes: ServiceTypeTime[]
+
 
   @ApiProperty()
   @IsString()
@@ -63,4 +74,6 @@ export class LawyerDto {
 
   @ApiProperty({ type: AvailableDay, isArray: true })
   availableDays: AvailableDay[];
+  @ApiProperty({type: ExperienceUser, isArray: true})
+  experiences: ExperienceUser[]
 }

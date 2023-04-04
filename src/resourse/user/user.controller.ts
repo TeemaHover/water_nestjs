@@ -123,6 +123,7 @@ export class UserController {
         let lawyer = await this.model.findByIdAndUpdate(user['_id'], {
             experience: dto.experience,
             availableDays: dto.availableDays,
+            experiences: dto.experiences,
             bio: dto.bio,
             profileImg: dto.profileImg
         })
@@ -138,10 +139,13 @@ export class UserController {
       if (!user) throw new HttpException('error', HttpStatus.UNAUTHORIZED);
     try {
         
-            let days = await this.model.updateOne({'_id': user['_id']}, {
-                $addToSet: {availableDays: dto}
+            let userService = await this.model.updateOne({'_id': user['_id'], 'userServices': {
+              "$elemMatch": {'serviceId': dto.serviceId}
+            } }, {
+              "$set": {"userServices.$.serviceTypes": dto.serviceTypes}
             })
-            return days
+           
+            return userService
        
     
     } catch (error) {

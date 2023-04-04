@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document } from "mongoose";
 import { ServiceType } from "src/utils/enum";
 import { Service } from "./service.schema";
+import { User } from "./user.schema";
 
 
 export type PriceDocument = Document & Price
@@ -13,8 +14,10 @@ export class ServicePrice {
   expiredTime: String
   @Prop({required: true})
   price: number
-  @Prop({type: Array, required: true})
-  time: Date[]
+  @Prop({required: true, type: mongoose.Types.ObjectId, ref: 'users'})
+  user: User
+  // @Prop({type: Array, required: true})
+  // time: Date[]
 }
 @Schema({timestamps: true})
 export class Price  {

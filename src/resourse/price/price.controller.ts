@@ -21,7 +21,7 @@ export class PriceController {
           serviceId: dto.serviceId,
           servicePrice: dto.priceService
         })
-        return price
+      return price
       // }
       return 
     } catch (error) {

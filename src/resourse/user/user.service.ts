@@ -10,7 +10,7 @@ export class UserService {
 
   async signPayload(payload) {
     return sign({ name: payload }, appConfig().appSecret, {
-      expiresIn: 60 * 60 * 24,
+      expiresIn: 60 * 60 * 24 * 7,
     });
   }
   async validateUser(payload: string) {

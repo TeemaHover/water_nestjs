@@ -15,18 +15,17 @@ import { OrderService } from "./order.service";
 export class OrderController {
   constructor(private readonly service: OrderService, @InjectModel(Order.name) private model: Model<OrderDocument>) {}
 
-  @Post('/:isClient')
-  @ApiParam({name: 'isClient'})
-  async createOrder(@Request() {user}, @Param('isClient') isClient: boolean,  @Body() dto: OrderDto) {
+  @Post('')
+  async createOrder(@Request() {user},  @Body() dto: OrderDto) {
     try {
       if(!user) throw new HttpException('error', HttpStatus.UNAUTHORIZED)
       let lawyerId = new mongoose.mongo.ObjectId(dto.lawyerId)
       let clientId = new mongoose.mongo.ObjectId(dto.clientId)
       let serviceId = new mongoose.mongo.ObjectId(dto.serviceId)
       let order = await this.model.create({
-        clientId: isClient ? user['_id'] : clientId,
+        clientId:  user['_id'] ,
         date: dto.date,
-        lawyerId: isClient ? lawyerId : user['_id'],
+        lawyerId: lawyerId,
         location: dto.location,
         expiredTime: dto.expiredTime,
         serviceStatus: dto.serviceStatus,
@@ -89,7 +88,9 @@ export class OrderController {
     return this.service.getUserOrders(user['_id'])
   }
 
-  @Put('/:id')
+
+
+  @Put('/:id/:status')
   @ApiParam({name: 'id'})
   @ApiQuery({name: 'status'})
   updateOrderStatus(@Request() {user}, @Param('id') id: string, @Query('status') status: ServiceStatus) {

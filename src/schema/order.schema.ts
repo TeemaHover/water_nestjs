@@ -14,7 +14,7 @@ export class Order  {
     date: number
 
     @Prop({type: mongoose.Types.ObjectId, ref: "users"})
-    clientId: User
+    clientId: User | null
 
     @Prop({type: mongoose.Types.ObjectId, ref: "users"})
     lawyerId: User

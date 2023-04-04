@@ -24,30 +24,16 @@ export class AuthController {
       let user = await this.service.validateUser(dto.phone);
       if (user) throw new HttpException('registered user', HttpStatus.FOUND);
       const hashed = await bcrypt.hash(dto.password, 10);
-      if (dto.userType == UserType.user) {
+  
         user = await this.model.create({
-          lastname: dto.lastname,
-          firstname: dto.firstname,
+          lastName: dto.lastName,
+          firstName: dto.firstName,
           phone: dto.phone,
           userStatus: UserStatus.active,
           userType: UserType.user,
           password: hashed,
         });
-      } else {
-        if (dto.userType == UserType.lawyer) {
-          user = await this.model.create({
-            lastname: dto.lastname,
-            firstname: dto.firstname,
-            phone: dto.phone,
-            userStatus: UserStatus.pending,
-            userType: UserType.lawyer,
-            password: hashed,
-            bio: dto.bio,
-            experience: dto.experience,
-            profileImg: dto.profileImg,
-          });
-        }
-      }
+      
       const token = await this.service.signPayload(user.phone);
       return {  token };
     } catch (e) {
