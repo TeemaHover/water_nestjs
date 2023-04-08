@@ -16,7 +16,7 @@ import { UserAccessGuard } from 'src/guard/auth.guard';
 import { User, UserDocument } from 'src/schema';
 import { UserStatus, UserType } from 'src/utils/enum';
 import { RatingService } from './rating.service';
-import { AvailableDay, LawyerDto } from './user.dto';
+import { LawyerDto, UserServicesDto } from './user.dto';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -28,6 +28,7 @@ export class UserController {
     private readonly service: UserService,
     @InjectModel(User.name) private model: Model<UserDocument>,
     private readonly ratingService: RatingService,
+
   ) {}
 
   @Put('/:id')
@@ -111,7 +112,7 @@ export class UserController {
   @ApiParam({name: 'id'})
   async getSuggestedLawyersByService(@Request() {user}, @Param('id') id: string ) {
 
-    let lawyers = await this.model.find({userType: UserType.lawyer, 'availableDays.serviceId':  {$in: [id] }}, null, {sort: {ratingAvg: -1}})
+    let lawyers = await this.model.find({userType: UserType.lawyer, 'userServices.serviceId':  {$in: [id] }}, null, {sort: {ratingAvg: -1}})
     return lawyers
   }
 
@@ -137,7 +138,7 @@ export class UserController {
   }
 
   @Patch('available')
-  async updateLawyerAvailableDays(@Request() {user}, @Body() dto:AvailableDay ) {
+  async updateLawyerAvailableDays(@Request() {user}, @Body() dto:UserServicesDto ) {
       if (!user) throw new HttpException('error', HttpStatus.UNAUTHORIZED);
     try {
         

@@ -4,7 +4,7 @@ import { JwtModule } from "@nestjs/jwt/dist";
 import { MongooseModule } from "@nestjs/mongoose";
 import appConfig from "src/config/app.config";
 
-import { User, UserSchema } from "src/schema";
+import { Price, PriceSchema, User, UserSchema } from "src/schema";
 import { Rating, RatingSchema } from "src/schema/rating.schema";
 import { RatingService } from "./rating.service";
 import { UserController } from "./user.controller";
@@ -14,7 +14,7 @@ import { UserService } from "./user.service";
 @Module({
     imports: [JwtModule.register({
         secretOrPrivateKey: appConfig().appSecret, signOptions: {expiresIn: 60 * 60 * 24}
-    }), MongooseModule.forFeature([{name: User.name, schema: UserSchema}, {name: Rating.name, schema: RatingSchema}])],
+    }), MongooseModule.forFeature([{name: User.name, schema: UserSchema}, {name: Rating.name, schema: RatingSchema,},  {name: Price.name, schema: PriceSchema}])],
     controllers: [UserController],
     providers: [UserService, RatingService],
     exports: [UserService]

@@ -3,10 +3,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { sign } from 'jsonwebtoken';
 import { Model } from 'mongoose';
 import appConfig from 'src/config/app.config';
+import { Price, PriceDocument } from 'src/schema';
 import { User, UserDocument } from 'src/schema/user.schema';
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private model: Model<UserDocument>) {}
+  constructor(@InjectModel(User.name) private model: Model<UserDocument>, @InjectModel(Price.name) private priceModel: Model<PriceDocument>) {}
 
   async signPayload(payload) {
     return sign({ name: payload }, appConfig().appSecret, {
@@ -19,7 +20,7 @@ export class UserService {
 
   async getUserById(id: string) {
     try {
-      return await this.model.findById(id);
+      return await this.model.findById(id).populate('userServices.serviceTypes.price', 'serviceId servicePrice', this.priceModel);
     } catch (error) {
       throw new HttpException(error, 500);
     }
