@@ -44,7 +44,7 @@ export class ServiceTypeTime {
   price: string
 }
 
-export class AvailableDay {
+export class UserServicesDto {
 
 
   
@@ -72,8 +72,9 @@ export class LawyerDto {
   @IsNumber()
   experience: number;
 
-  @ApiProperty({ type: AvailableDay, isArray: true })
-  availableDays: AvailableDay[];
+  @ApiProperty({ type: UserServicesDto, isArray: true })
+  userServices: UserServicesDto[]
+  
   @ApiProperty({type: ExperienceUser, isArray: true})
   experiences: ExperienceUser[]
 }

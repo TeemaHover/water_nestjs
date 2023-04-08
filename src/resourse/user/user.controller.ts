@@ -122,7 +122,7 @@ export class UserController {
     try {
         let lawyer = await this.model.findByIdAndUpdate(user['_id'], {
             experience: dto.experience,
-            availableDays: dto.availableDays,
+            userServices: dto.userServices,
             experiences: dto.experiences,
             userStatus: UserStatus.pending,
             userType: UserType.lawyer,
