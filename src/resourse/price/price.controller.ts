@@ -19,6 +19,7 @@ export class PriceController {
       // if(user.userType == "admin") {
         let price = await this.model.create({
           serviceId: dto.serviceId,
+          user: user['_id'],
           servicePrice: dto.priceService
         })
       return price
@@ -32,6 +33,19 @@ export class PriceController {
   @Get()
   async allPrices() {
     return await this.model.find()
+  }
+
+  @Get('/:serviceId/:type')
+  @ApiParam({name:'serviceId'})
+  @ApiParam({name:'type'})
+  async getPrice(@Request() {user}, @Param('type') type, @Param('serviceId') serviceId) {
+    try {
+      let price = await this.model.findOne({user: user['_id'], serviceId: serviceId, 'servicePrice.serviceType' : type})
+      if(!price) throw new HttpException('not found', HttpStatus.NOT_FOUND)
+      return price
+    } catch (error) {
+      throw new HttpException(error, 500)
+    }
   }
   @Put('/:id')
   @ApiParam({name: 'id'} )

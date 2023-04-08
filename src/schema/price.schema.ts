@@ -14,14 +14,14 @@ export class ServicePrice {
   expiredTime: String
   @Prop({required: true})
   price: number
-  @Prop({required: true, type: mongoose.Types.ObjectId, ref: 'users'})
-  user: User
+  
   // @Prop({type: Array, required: true})
   // time: Date[]
 }
 @Schema({timestamps: true})
 export class Price  {
-
+  @Prop({required: true, type: mongoose.Types.ObjectId, ref: 'users'})
+  user: User
   @Prop({type: mongoose.Types.ObjectId, ref: 'services'})
   serviceId: Service
   @Prop()
