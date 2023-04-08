@@ -40,6 +40,10 @@ export class OrderDto {
 
   @ApiProperty()
   @IsString()
+  price: string;
+
+  @ApiProperty()
+  @IsString()
   userToken: string;
   @ApiProperty()
   @IsString()

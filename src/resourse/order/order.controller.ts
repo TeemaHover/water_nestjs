@@ -32,6 +32,7 @@ export class OrderController {
         serviceId: serviceId,
         serviceType: dto.serviceType,
         userToken: dto.userToken,
+        price: dto.price,
         lawyerToken: dto.lawyerToken,
         channelName: dto.channelName
       }) 

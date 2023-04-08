@@ -40,9 +40,14 @@ export class PriceController {
   @ApiParam({name:'type'})
   async getPrice(@Request() {user}, @Param('type') type, @Param('serviceId') serviceId) {
     try {
-      let price = await this.model.findOne({user: user['_id'], serviceId: serviceId, 'servicePrice.serviceType' : type})
+      let price 
+      if (type == 'any') {
+        price = await this.model.findOne({user: user['_id'], serviceId: serviceId,})
+      } else {
+        price = await this.model.findOne({user: user['_id'], serviceId: serviceId, 'servicePrice.serviceType' : type})
+      }
       if(!price) throw new HttpException('not found', HttpStatus.NOT_FOUND)
-      return price
+      return price.servicePrice
     } catch (error) {
       throw new HttpException(error, 500)
     }

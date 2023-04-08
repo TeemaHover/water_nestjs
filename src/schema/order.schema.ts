@@ -36,6 +36,9 @@ export class Order  {
 
     @Prop({required: true})
     channelName: string
+
+    @Prop({required: true})
+    price: string
     
     @Prop({required: true})
     userToken: string
