@@ -13,7 +13,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { ApiBearerAuth, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Model } from 'mongoose';
 import { UserAccessGuard } from 'src/guard/auth.guard';
-import { User, UserDocument } from 'src/schema';
+import { Price, PriceDocument, User, UserDocument } from 'src/schema';
 import { UserStatus, UserType } from 'src/utils/enum';
 import { RatingService } from './rating.service';
 import { LawyerDto, UserServicesDto } from './user.dto';
@@ -27,6 +27,7 @@ export class UserController {
   constructor(
     private readonly service: UserService,
     @InjectModel(User.name) private model: Model<UserDocument>,
+    @InjectModel(Price.name) private priceModel: Model<PriceDocument>,
     private readonly ratingService: RatingService,
 
   ) {}
@@ -104,7 +105,7 @@ export class UserController {
   @Get('suggest/lawyer') 
   async getSuggestedLawyers(@Request() {user}) {
 
-    let lawyers = await this.model.find({userType: UserType.lawyer, ratingAvg: {$gt: 3} }, null, {sort: {ratingAvg: -1}})
+    let lawyers = await this.model.find({userType: UserType.lawyer, ratingAvg: {$gt: 3} }, null, {sort: {ratingAvg: -1}}).populate('userServices.serviceTypes.price', 'serviceId servicePrice', this.priceModel);
     return lawyers
   }
 
@@ -112,7 +113,7 @@ export class UserController {
   @ApiParam({name: 'id'})
   async getSuggestedLawyersByService(@Request() {user}, @Param('id') id: string ) {
 
-    let lawyers = await this.model.find({userType: UserType.lawyer, 'userServices.serviceId':  {$in: [id] }}, null, {sort: {ratingAvg: -1}})
+    let lawyers = await this.model.find({userType: UserType.lawyer, 'userServices.serviceId':  {$in: [id] }}, null, {sort: {ratingAvg: -1}}).populate('userServices.serviceTypes.price', 'serviceId servicePrice', this.priceModel);
     return lawyers
   }
 
