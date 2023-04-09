@@ -13,7 +13,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { ApiBearerAuth, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Model } from 'mongoose';
 import { UserAccessGuard } from 'src/guard/auth.guard';
-import { Price, PriceDocument, User, UserDocument } from 'src/schema';
+import { Price, PriceDocument, Service, ServiceDocument, User, UserDocument } from 'src/schema';
 import { UserStatus, UserType } from 'src/utils/enum';
 import { RatingService } from './rating.service';
 import { LawyerDto, UserServicesDto } from './user.dto';
@@ -28,6 +28,7 @@ export class UserController {
     private readonly service: UserService,
     @InjectModel(User.name) private model: Model<UserDocument>,
     @InjectModel(Price.name) private priceModel: Model<PriceDocument>,
+    @InjectModel(Service.name) private serviceModel: Model<ServiceDocument>,
     private readonly ratingService: RatingService,
 
   ) {}
@@ -142,18 +143,28 @@ export class UserController {
   async updateLawyerAvailableDays(@Request() {user}, @Body() dto:UserServicesDto ) {
       if (!user) throw new HttpException('error', HttpStatus.UNAUTHORIZED);
     try {
+            
+            
+
+           let service = user['userServices'].find((s) => s.serviceId.toString() == dto.serviceId)
         
-            let userService = await this.model.updateOne({'_id': user['_id'], 'userServices': {
-              "$elemMatch": {'serviceId': dto.serviceId}
-            } }, {
-              "$set": {"userServices.$.serviceTypes": dto.serviceTypes}
-            })
+            if(service != null) {
+              await this.model.updateOne({_id: user['_id'], 'userServices.serviceId': dto.serviceId}, {
+                $set: {'userServices.$': {serviceTypes: dto.serviceTypes }}
+              })
            
-            return userService
+            } else {
+         
+              await this.model.updateOne({_id: user['_id'], 'userServices.serviceId': dto.serviceId}, {
+                $push: {'userServices': {serviceTypes: dto.serviceTypes, serviceId: dto.serviceId }}
+              })
+            }
+            return user
        
     
     } catch (error) {
-        throw new HttpException(error, 500)
+      console.error(error)
+      throw new HttpException('error', 500)
     }
   }
  

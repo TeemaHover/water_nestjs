@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsNumber, IsString } from 'class-validator';
 import { ServiceType } from 'src/utils/enum';
-
 export class RatingDto {
   @ApiProperty()
   clientId: string;
@@ -40,8 +39,6 @@ export class ServiceTypeTime {
   @IsArray()
   time: ServiceTime[];
 
-  @ApiProperty()
-  price: string
 }
 
 export class UserServicesDto {
