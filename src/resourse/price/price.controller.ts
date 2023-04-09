@@ -19,7 +19,7 @@ export class PriceController {
       // if(user.userType == "admin") {
         let price = await this.model.create({
           serviceId: dto.serviceId,
-          user: user['_id'],
+          user: user['_id'].toString(),
           servicePrice: dto.priceService
         })
       return price
@@ -47,10 +47,11 @@ export class PriceController {
       } else {
         price = await this.model.findOne({user: lawyerId, serviceId: serviceId, 'servicePrice.serviceType' : type})
       }
-      if(!price) throw new HttpException('not found', HttpStatus.NOT_FOUND)
+      if(!price) throw new HttpException('not found', 400)
       return price.servicePrice
     } catch (error) {
-      throw new HttpException(error, 500)
+      console.error(error)
+      throw new HttpException('error', 500)
     }
   }
   @Put('/:id')
