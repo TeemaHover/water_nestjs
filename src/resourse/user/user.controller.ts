@@ -150,7 +150,7 @@ export class UserController {
         
             if(service != null) {
               await this.model.updateOne({_id: user['_id'], 'userServices.serviceId': dto.serviceId}, {
-                $set: {'userServices.$': {serviceTypes: dto.serviceTypes }}
+                $set: {'userServices.$': {serviceTypes: dto.serviceTypes , serviceId: dto.serviceId}}
               })
            
             } else {
