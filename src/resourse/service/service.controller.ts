@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, 
 import { InjectModel } from "@nestjs/mongoose";
 import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
 import { Model } from "mongoose";
-import { UserAccessGuard } from "src/guard/auth.guard";
+import { UserAccessGuard } from "src/resourse/auth/auth.guard";
 import { Service, ServiceDocument } from "src/schema";
 import { ServiceDto } from "./service.dto";
 

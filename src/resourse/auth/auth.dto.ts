@@ -28,7 +28,6 @@ export class RegisterDto {
 
     @ApiProperty({
         enum: UserType,
-        default: UserType.user
     })
     userType: UserType;
 }

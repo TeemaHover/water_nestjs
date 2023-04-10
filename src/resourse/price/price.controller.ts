@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put, Req
 import { InjectModel } from "@nestjs/mongoose";
 import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
 import { Model } from "mongoose";
-import { UserAccessGuard } from "src/guard/auth.guard";
+import { UserAccessGuard } from "src/resourse/auth/auth.guard";
 import { Price, PriceDocument } from "src/schema";
 import { PriceDto } from "./price.dto";
 @Controller('price')

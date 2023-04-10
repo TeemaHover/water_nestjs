@@ -1,56 +1,39 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document } from "mongoose";
-import { ServiceType, UserStatus, UserType } from "src/utils/enum";
-import { Rating } from "./rating.schema";
-import { Service } from "./service.schema";
+import { UserStatus, UserType } from "src/utils/enum";
+import { Comment } from "./comment.schema";
+import { Product } from "./product.schema";
 
 
 export type UserDocument = Document & User
 
 
-export class ExperienceUser  {
+
+export class CarrierDetail  {
+  @Prop({type: mongoose.Types.ObjectId, ref: 'products'})
+  product: Product
   @Prop()
-  link: string
+  unit: number
+  @Prop({type: [{Comment}]}) 
+  returnedProduct: Comment[]
+
+}
+export class Location  {
   @Prop()
-  date: string
-  @Prop() 
-  title: string
-
-}
-
-export class AvailableTime {
-
-  @Prop({required: true})
-  day: string
-  @Prop({required: true})
-  time: string[]
-  @Prop({required: true})
-  date: number
-}
-
-export class UserServiceType {
-  @Prop({ type: String, enum: ServiceType,  required: true })
-  serviceType: ServiceType
-  
-  @Prop([AvailableTime])
-  time?: AvailableTime[]
-
-}
-export class UserServices {
-  
-
-  @Prop({required: true, type: mongoose.Types.ObjectId, ref: "services"})
-  serviceId: Service
-  @Prop([ UserServiceType])
-  serviceTypes?: UserServiceType[]
+  lat: string
+  @Prop()
+  lng: string
 }
 
 @Schema({timestamps: true})
 export class User  {
-    @Prop({required: true})
+    @Prop()
+    shopName: string
+
+    @Prop()
     firstName: string
 
-    @Prop({required: true})
+    @Prop()
     lastName: string
 
     @Prop({required: true})
@@ -59,32 +42,21 @@ export class User  {
     @Prop({required: true})
     password: string
 
-    @Prop({ type: String, enum: UserType, default: UserType.user, required: true })
-    userType: UserType;
+    @Prop({ enum: UserType,  required: true })
+    type: UserType[];
+
+    @Prop({ type: String, enum: UserStatus,  required: true })
+    status: UserStatus;
 
     @Prop()
-    experience?: number
+    location?: Location
+
+    @Prop({type: [User]})
+    carriers?: User[]
 
     @Prop()
-    experiences?: ExperienceUser[]
-    
-    @Prop()
-    bio?: String
+    carrierDetail?: CarrierDetail
 
-    @Prop()
-    ratingAvg?: number
-
-    @Prop()
-    rating?: Rating[]
-
-    @Prop()
-    profileImg?: String
-
-    @Prop({ type: String, enum: UserStatus, default: UserStatus.pending, required: true })
-    userStatus: UserStatus;
-
-    @Prop([ UserServices])
-    userServices?: UserServices[] 
 
 
 }

@@ -2,21 +2,18 @@ import { Controller, Post } from '@nestjs/common';
 import { Body } from '@nestjs/common/decorators';
 import { HttpStatus } from '@nestjs/common/enums';
 import { HttpException } from '@nestjs/common/exceptions';
-import { InjectModel } from '@nestjs/mongoose';
 import { ApiTags } from '@nestjs/swagger';
 import * as bcrypt from 'bcrypt';
-import { Model } from 'mongoose';
-import { User, UserDocument } from 'src/schema';
 import { UserStatus, UserType } from 'src/utils/enum';
-import { UserService } from '../user/user.service';
 import { LoginDto, RegisterDto } from './auth.dto';
+import { AuthService } from './auth.service';
+import { Public } from './decorators/public.decorator';
 
 @Controller('auth')
 @ApiTags('Auth')
 export class AuthController {
   constructor(
-    @InjectModel(User.name) private model: Model<UserDocument>,
-    private readonly service: UserService,
+    private readonly service: AuthService,
   ) {}
   @Post('register')
   async register(@Body() dto: RegisterDto) {
@@ -40,32 +37,11 @@ export class AuthController {
       throw new HttpException(e.message, HttpStatus.FORBIDDEN);
     }
   }
+  @Public()
   @Post('login')
   async login(@Body() dto: LoginDto) {
-    let user = await this.service.validateUser(dto.phone);
-    if (!user) throw new HttpException('wrong phone', HttpStatus.FORBIDDEN);
-
-    const checkPassword = this.checkPassword(dto.password, user.password);
-    if (checkPassword) {
-      const token = await this.service.signPayload(user.phone);
-      return {  token };
-    } else {
-      throw new HttpException('wrong password', HttpStatus.UNAUTHORIZED);
-    }
+    return this.service.signIn(dto.phone, dto.password)
   }
 
-  // @Delete()
-  // async delete() {
-  //   return this.service.deleteAllUser();
-  // }
 
-  async checkPassword(password: string, checkPassword: string) {
-    bcrypt.compare(password, checkPassword, (err, result) => {
-      if (result) {
-        return true;
-      } else {
-        return false;
-      }
-    });
-  }
 }

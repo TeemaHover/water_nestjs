@@ -12,7 +12,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { ApiBearerAuth, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Model } from 'mongoose';
-import { UserAccessGuard } from 'src/guard/auth.guard';
+import { UserAccessGuard } from 'src/resourse/auth/auth.guard';
 import { Price, PriceDocument, Service, ServiceDocument, User, UserDocument } from 'src/schema';
 import { UserStatus, UserType } from 'src/utils/enum';
 import { RatingService } from './rating.service';

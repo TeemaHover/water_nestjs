@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put, Que
 import { InjectModel } from "@nestjs/mongoose";
 import { ApiBearerAuth, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
 import mongoose, { Model } from "mongoose";
-import { UserAccessGuard } from "src/guard/auth.guard";
+import { UserAccessGuard } from "src/resourse/auth/auth.guard";
 import { Order, OrderDocument } from "src/schema";
 import { ServiceStatus, UserType } from "src/utils/enum";
 import { OrderDto } from "./order.dto";
