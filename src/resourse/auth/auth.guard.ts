@@ -11,6 +11,7 @@ type UserDecoded = {
 export class UserAccessGuard {
   constructor(
     private userService: UserService,
+
     private reflector: Reflector) { }
   logger = new Logger();
 
@@ -30,6 +31,7 @@ export class UserAccessGuard {
       const user = await this.userService.validateUser(decoded['phone'] );
 
       request['user'] = user;
+  
       return true
     } catch (e) {
       this.logger.error(e);

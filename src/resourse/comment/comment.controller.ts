@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, HttpException, Post, Request, UseGuards } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Model } from "mongoose";
@@ -17,7 +17,7 @@ export class CommentController {
 
   @Roles(UserType.shop, UserType.user)
   @Post()
-  create(@Request() {user}, @Body() dto: CommentDto) {
+  async create(@Request() {user}, @Body() dto: CommentDto) {
     try {
       return await this.model.create({
         user: user['_id'],
@@ -34,7 +34,7 @@ export class CommentController {
   }
   @Roles(UserType.business)
   @Get()
-  view(@Request() {user}) {
+  async view(@Request() {user}) {
     try {
       return this.model.find({business: user['_id']})
     } catch (error) {

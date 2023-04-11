@@ -6,11 +6,13 @@ import { Category, CategoryDocument } from "src/schema";
 import { UserType } from "src/utils/enum";
 import { UserAccessGuard } from "../auth/auth.guard";
 import { Roles } from "../auth/decorators/roles.decorator";
+import { RolesGuard } from "../auth/roles.guard";
 import { CategoryDto } from "./category.dto";
 
 @Controller('category')
 @ApiTags("Category")
 @UseGuards(UserAccessGuard)
+@UseGuards(RolesGuard)
 @ApiBearerAuth('access-token')
 export class CategoryController {
   constructor(@InjectModel(Category.name) private model: Model<CategoryDocument>) {}
