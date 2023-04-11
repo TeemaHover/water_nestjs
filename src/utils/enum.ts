@@ -20,6 +20,16 @@ export enum UserStatus {
   banned = 'banned'
 }
 
+export enum WorkStatus {
+ 
+  working = "working",
+ 
+  resting = 'resting',
+
+  left = 'left'
+  
+}
+
 export enum OrderType {
   // voice call
   onlineEmergency='onlineEmergency',

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 
-import { UserStatus, UserType } from 'src/utils/enum';
+import { UserStatus, UserType, WorkStatus } from 'src/utils/enum';
 
 export class CarrierDetailDto {
   @ApiProperty()
@@ -58,6 +58,11 @@ export class RegisterDto {
     enum: UserType,
   })
   type: UserType;
+  @ApiProperty({
+    type: String,
+    enum: WorkStatus,
+  })
+  jobStatus: WorkStatus;
 
   @ApiProperty({ type: String, enum: UserStatus })
   status: UserStatus;

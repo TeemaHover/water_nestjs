@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document, Schema as MongooseSchema } from "mongoose";
-import { UserStatus, UserType } from "src/utils/enum";
+import { UserStatus, UserType, WorkStatus } from "src/utils/enum";
 import { Comment } from "./comment.schema";
 import { Product } from "./product.schema";
 
@@ -61,6 +61,9 @@ export class User  {
 
     @Prop()
     carrierDetail?: CarrierDetail
+
+    @Prop({ type: String, enum: WorkStatus,  required: true })
+    jobStatus: WorkStatus;
 
 
 

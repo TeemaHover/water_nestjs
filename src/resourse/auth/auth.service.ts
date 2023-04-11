@@ -13,7 +13,6 @@ export class AuthService {
   async login(dto: LoginDto) {
     const user = await this.userService.validateUser(dto.phone);
     const check = await bcrypt.compare(dto.password, user?.password)
-    console.log(check)
     if (!check) {
       throw new UnauthorizedException();
     }

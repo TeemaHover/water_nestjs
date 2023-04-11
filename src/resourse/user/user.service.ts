@@ -36,6 +36,7 @@ export class UserService {
         type: dto.type,
         carrierDetail: dto.carrierDetail,
         carriers: dto.carriers,
+        jobStatus: dto.jobStatus,
         location: dto.location,
       })
      
