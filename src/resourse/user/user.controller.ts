@@ -5,9 +5,7 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { UserType } from 'src/utils/enum';
 import { UserAccessGuard } from '../auth/auth.guard';
-import { Roles } from '../auth/decorators/roles.decorator';
 import { UserService } from './user.service';
 
 
@@ -20,20 +18,11 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly service: UserService) {}
   
-  @Get('asdf')
-  getData(@Request() req) {
-    // console.log(req.user)
-    console.log(req)
-    return 'asdf'
+  @Get('me')
+  getData(@Request() {user}) {
+    return user
   }
 
 
-  @Get('adsfasdf')
-  
-  
-  @Roles(UserType.system)
-  getads() {
-    return 'asdf'
-  }
- 
+
 }
