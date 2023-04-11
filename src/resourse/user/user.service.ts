@@ -1,13 +1,14 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import * as bcrypt from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import { Model } from 'mongoose';
 import appConfig from 'src/config/app.config';
-import { Price, PriceDocument } from 'src/schema';
 import { User, UserDocument } from 'src/schema/user.schema';
+import { RegisterDto } from '../auth/auth.dto';
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private model: Model<UserDocument>, @InjectModel(Price.name) private priceModel: Model<PriceDocument>) {}
+  constructor(@InjectModel(User.name) private model: Model<UserDocument>) {}
 
   async signPayload(payload) {
     return sign({ name: payload }, appConfig().appSecret, {
@@ -15,14 +16,33 @@ export class UserService {
     });
   }
   async validateUser(payload: string) {
+  
     return await this.model.findOne({ phone: payload });
   }
 
-  async getUserById(id: string) {
+  async createUser(dto: RegisterDto) {
     try {
-      return await this.model.findById(id).populate('userServices.serviceTypes.price', 'serviceId servicePrice', this.priceModel);
+
+      const hashed = await bcrypt.hash(dto.password, 10);
+      let user = await this.model.create({
+        shopName: dto.shopName,
+        lastName: dto.lastName,
+        firstName: dto.firstName,
+        registerNumber: dto.registerNumber,
+        companyRegisterNumber: dto.registerNumber,
+        password: hashed,
+        status: dto.status,
+        phone: dto.phone,
+        type: dto.type,
+        carrierDetail: dto.carrierDetail,
+        carriers: dto.carriers,
+        location: dto.location,
+      })
+     
+      return user 
     } catch (error) {
       throw new HttpException(error, 500);
+      console.error(error)
     }
   }
 

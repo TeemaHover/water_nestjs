@@ -1,38 +1,39 @@
-
+import { ExecutionContext, Injectable, Logger } from "@nestjs/common";
+import { Reflector } from "@nestjs/core";
+import * as jwt from "jsonwebtoken";
+import appConfig from "src/config/app.config";
+import { UserService } from "../user/user.service";
+type UserDecoded = {
+    userId: string;
+    from: string;
+  }
 @Injectable()
-export class AuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService, private reflector: Reflector) {}
+export class UserAccessGuard {
+  constructor(
+    private userService: UserService,
+    private reflector: Reflector) { }
+  logger = new Logger();
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {
-    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
-      context.getHandler(),
-      context.getClass(),
-    ]);
-    if (isPublic) {
-      // 💡 See this condition
-      return true;
-    }
+  async canActivate(context: ExecutionContext) {
+    const isPublic = this.reflector.get<boolean>('isPublic', context.getHandler());
+    if (isPublic) return true;
 
     const request = context.switchToHttp().getRequest();
-    const token = this.extractTokenFromHeader(request);
-    if (!token) {
-      throw new UnauthorizedException();
-    }
-    try {
-      const payload = await this.jwtService.verifyAsync(token, {
-        secret: jwtConstants.secret,
-      });
-      // 💡 We're assigning the payload to the request object here
-      // so that we can access it in our route handlers
-      request['user'] = payload;
-    } catch {
-      throw new UnauthorizedException();
-    }
-    return true;
-  }
+    const header = request.headers.authorization;
 
-  private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(' ') ?? [];
-    return type === 'Bearer' ? token : undefined;
+    if (!header) return false;
+
+    try {
+      const token = header.split(" ")[1];
+      const decoded = jwt.verify(token, appConfig().appSecret)  ;
+  
+      const user = await this.userService.validateUser(decoded['phone'] );
+
+      request['user'] = user;
+      return true
+    } catch (e) {
+      this.logger.error(e);
+      return false;
+    }
   }
 }

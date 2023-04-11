@@ -2,10 +2,11 @@ import { Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 
 import { APP_GUARD } from '@nestjs/core';
+import appConfig from "src/config/app.config";
 import { UserModule } from "../user/user.module";
-import { jwtConstants } from "./auth.const";
 import { AuthController } from "./auth.controller";
-import { AuthGuard } from "./auth.guard";
+
+import { UserAccessGuard } from "./auth.guard";
 import { AuthService } from "./auth.service";
 import { RolesGuard } from "./roles.guard";
 
@@ -16,11 +17,10 @@ import { RolesGuard } from "./roles.guard";
         UserModule,
         JwtModule.register({
         global: true,
-        secret: jwtConstants.secret,
-        signOptions: {expiresIn: '1d'}
+        secret:  appConfig().appSecret,
     }), ],
     controllers: [AuthController],
-    providers: [AuthService, {provide: APP_GUARD, useClass: AuthGuard,}, {provide: APP_GUARD, useClass: RolesGuard,}],
+    providers: [AuthService, {provide: APP_GUARD, useClass: UserAccessGuard,}, {provide: APP_GUARD, useClass: RolesGuard,}],
     exports: [AuthService]
     
 })

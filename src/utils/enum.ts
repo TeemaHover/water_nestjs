@@ -4,6 +4,8 @@ export enum UserType {
 
   shop = 'shop',
 
+  user = 'user',
+
   carrier = 'carrier',
   // system
   system = 'system'
@@ -37,7 +39,7 @@ export enum OrderStatus {
 
   delivering = 'delivering',
 
-  finished = 'finished'
+  finished = 'finished',
 
   cancelled = 'cancelled'
 }

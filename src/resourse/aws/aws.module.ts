@@ -1,15 +1,9 @@
-import { Module } from '@nestjs/common';
-import { Pinpoint } from 'aws-sdk';
+import { Global, Module } from "@nestjs/common";
+import { S3Service } from "./s3.service";
 
-import { AwsSdkModule } from 'nest-aws-sdk/dist/lib/aws.module';
-import { AwsController } from './aws.controller';
-import { AwsPinpoint } from './pinpoint';
-
-
+@Global()
 @Module({
-  imports: [AwsSdkModule.forFeatures([ Pinpoint])],
-  controllers: [AwsController],
-  providers: [ AwsPinpoint],
-  exports: [ AwsPinpoint],
+  providers: [S3Service],
+  exports: [S3Service]
 })
 export class AwsModule {}

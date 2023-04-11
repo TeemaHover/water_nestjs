@@ -16,7 +16,7 @@ export class Comment  {
     message?: string
     
     @Prop({type: mongoose.Types.ObjectId, ref: 'users'})
-    shop: User
+    user: User
     @Prop({type: mongoose.Types.ObjectId, ref: 'users'})
     business: User
 

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import mongoose, { Document } from "mongoose";
+import mongoose, { Document, Schema as MongooseSchema } from "mongoose";
 import { UserStatus, UserType } from "src/utils/enum";
 import { Comment } from "./comment.schema";
 import { Product } from "./product.schema";
@@ -36,14 +36,19 @@ export class User  {
     @Prop()
     lastName: string
 
+    @Prop()
+    registerNumber: string
+    @Prop()
+    companyRegisterNumber: string
+
     @Prop({required: true})
     phone: string
 
     @Prop({required: true})
     password: string
 
-    @Prop({ enum: UserType,  required: true })
-    type: UserType[];
+    @Prop({type: String ,enum: UserType,  required: true })
+    type: UserType;
 
     @Prop({ type: String, enum: UserStatus,  required: true })
     status: UserStatus;
@@ -51,7 +56,7 @@ export class User  {
     @Prop()
     location?: Location
 
-    @Prop({type: [User]})
+    @Prop({type: MongooseSchema.Types.Array})
     carriers?: User[]
 
     @Prop()

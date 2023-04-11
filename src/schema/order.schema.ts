@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document } from "mongoose";
-import { OrderStatus, ServiceStatus, ServiceType } from "src/utils/enum";
+import { OrderStatus } from "src/utils/enum";
+import { Product } from "./product.schema";
 import { Location, User } from "./user.schema";
-import { OrderStatus } from "aws-sdk/clients/outposts";
 
 
 export type OrderDocument = Document & Order
@@ -20,7 +20,7 @@ export class Order  {
 
 
     @Prop({type: mongoose.Types.ObjectId, ref: "users"})
-    shop: User 
+    user: User 
 
     @Prop({type: mongoose.Types.ObjectId, ref: "users"})
     business: User

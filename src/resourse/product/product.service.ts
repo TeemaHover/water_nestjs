@@ -1,23 +1,24 @@
 import { HttpException, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { Order, OrderDocument } from "src/schema";
-import { OrderDto } from "./order.dto";
+import { Product, ProductDocument } from "src/schema";
+import { ProductDto } from "./product.dto";
 
 @Injectable()
-export class OrderService {
+export class ProductService {
+  constructor(@InjectModel(Product.name) private model: Model<ProductDocument>) {}
 
-  constructor(@InjectModel(Order.name) private model: Model<OrderDocument>) {}
- 
-  async create(dto: OrderDto, userId: string) {
+
+  async create(dto:ProductDto ) {
     try {
       return await this.model.create({
-        user: userId,
         business: dto.business,
-        orders: dto.orders,
-        location: dto.location,
-        carrier: dto.carrier,
-        status: dto.status,
+        barcode: dto.barcode,
+        productName: dto.productName,
+        price: dto.price,
+        categoryId: dto.categoryId,
+        unit: dto.unit,
+        minUnit: dto.minUnit,
       })
     } catch (error) {
       throw new HttpException(error.message, 500)
@@ -25,9 +26,9 @@ export class OrderService {
     }
   }
 
-  async viewForUsers(userId: string) {
+  async view() {
     try {
-      return await this.model.find({user: userId})
+      return await this.model.find()
     } catch (error) {
       throw new HttpException(error.message, 500)
       console.error(error)

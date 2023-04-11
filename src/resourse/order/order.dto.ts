@@ -1,51 +1,32 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsString, ValidateIf } from 'class-validator';
-import { ServiceStatus, ServiceType } from 'src/utils/enum';
+import { ApiProperty } from "@nestjs/swagger"
+import { IsNumber, IsString } from "class-validator"
+import { Location } from "../auth/auth.dto"
+import { OrderStatus } from "src/utils/enum"
 
+export class OrderDetailDto {
+  @ApiProperty()
+  @IsString()
+  product: string
+  @ApiProperty()
+  @IsNumber()
+  unit: number
+}
 export class OrderDto {
   @ApiProperty()
-  date: number;
-
-  @ApiProperty()
   @IsString()
-  clientId: string;
+  business: string
+  
+
+  @ApiProperty({type: [OrderDetailDto]})
+  orders: OrderDetailDto[]
+
+  @ApiProperty({type: Location})
+  location?: Location
 
   @ApiProperty()
-  @IsString()
-  lawyerId: string ;
-  @ApiProperty()
-  @IsString()
-  @ValidateIf((object, value) => value !== null)
-  serviceId: string | null;
+  carrier: string
 
-  @ApiProperty()
-  location?: string;
 
-  @ApiProperty()
-  expiredTime: string;
-  @ApiProperty({
-    enum: ServiceType,
-  })
-  serviceType: ServiceType;
-
-  @ApiProperty({
-    enum: ServiceStatus,
-    default: ServiceStatus.pending,
-  })
-  serviceStatus: ServiceStatus;
-
-  @ApiProperty()
-  @IsString()
-  channelName: string;
-
-  @ApiProperty()
-  @IsString()
-  price: string;
-
-  @ApiProperty()
-  @IsString()
-  userToken: string;
-  @ApiProperty()
-  @IsString()
-  lawyerToken: string;
+  @ApiProperty({ type: String, enum: OrderStatus  })
+  status: OrderStatus
 }

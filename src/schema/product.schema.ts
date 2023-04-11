@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document } from "mongoose";
+import { Category } from "./category.schema";
 import { User } from "./user.schema";
-import { Category } from "aws-sdk/clients/cloudformation";
+
 
 
 export type ProductDocument = Document & Product
@@ -32,7 +33,11 @@ export class Product  {
   @Prop()
   unit: number  
 
-  
+  @Prop() 
+  price: number  
+
+  @Prop()
+  minUnit?: number  
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product)
