@@ -8,6 +8,8 @@ export class CommentDto {
   
   @ApiProperty()
   message?: string
+  @ApiProperty()
+order: string
   
 
   @ApiProperty()
