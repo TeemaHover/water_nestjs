@@ -59,7 +59,7 @@ export class ProductController {
   @Put('/:id')
   @Roles(UserType.business)
   @ApiParam({name: 'id'})
-  updateProduct(@Request() {user} @Param('id') id, @Body()  dto: ProductDto) {
+  updateProduct(@Request() {user}, @Param('id') id, @Body()  dto: ProductDto) {
     return this.service.update(dto, id)
   }
 
