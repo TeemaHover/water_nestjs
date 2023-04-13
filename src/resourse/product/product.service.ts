@@ -60,6 +60,14 @@ export class ProductService {
     }
   }
 
+  async viewByBardcode( code: number) {
+    try {
+      return await this.model.findOne({barcode: code})
+    } catch (error) {
+      throw new HttpException(error.message, 500)
+      console.error(error)
+    }
+  }
   async viewForBusiness(userId: string) {
     try {
       return await this.model.find({business: userId})
