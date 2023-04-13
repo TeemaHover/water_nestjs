@@ -10,6 +10,8 @@ export class RolesGuard implements CanActivate {
 
 
   canActivate(context: ExecutionContext,): boolean {
+    const isPublic = this.reflector.get<boolean>('isPublic', context.getHandler());
+    if (isPublic) return true;
     const requiredRoles = this.reflector.getAllAndOverride<UserType[]>(ROLES_KEY, [
       context.getHandler(),
       context.getClass(),
@@ -19,6 +21,10 @@ export class RolesGuard implements CanActivate {
     }
     const { user } = context.switchToHttp().getRequest();
 
-    return requiredRoles.includes( user.type) || user.type == UserType.system ;
+    if(user && user.type) {
+      return requiredRoles.includes( user.type)  ;
+    } else {
+      return false
+    }
   }
 }

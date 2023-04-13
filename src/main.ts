@@ -9,9 +9,6 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   setupSwagger(app)
   await app.listen(process.env.PORT || 5050);
-  if (module.hot) {
-    module.hot.accept();
-    module.hot.dispose(() => app.close());
-  }
+
 }
 bootstrap();

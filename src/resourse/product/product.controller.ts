@@ -39,9 +39,10 @@ export class ProductController {
     return imagesUrl;
   }
 
-  @Roles(UserType.business)
+  // @Roles(UserType.business)
   @Post()
   create(@Body() dto: ProductDto) {
+    console.log(dto)
     return this.service.create(dto)
   }
 
