@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpException, Post, Request, UseGuards } from "
 import { InjectModel } from "@nestjs/mongoose";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Model } from "mongoose";
-import { CommentDocument } from "src/schema";
+import { Comment, CommentDocument } from "src/schema";
 import { UserType } from "src/utils/enum";
 import { UserAccessGuard } from "../auth/auth.guard";
 import { Roles } from "../auth/decorators/roles.decorator";
