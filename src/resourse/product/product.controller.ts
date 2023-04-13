@@ -54,8 +54,8 @@ export class ProductController {
 
   @Get('barcode/:code')
   @ApiParam({name:  'code'})
-  view(@Param('code') code: string) {
-    return this.service.view(Number.parseInt(code))
+  viewByBarcode(@Param('code') code: string) {
+    return this.service.viewByBardcode(Number.parseInt(code))
   }
 
   @Get("business")
