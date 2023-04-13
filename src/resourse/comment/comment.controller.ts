@@ -5,7 +5,6 @@ import { Model } from "mongoose";
 import { Comment, CommentDocument } from "src/schema";
 import { UserType } from "src/utils/enum";
 import { UserAccessGuard } from "../auth/auth.guard";
-import { Roles } from "../auth/decorators/roles.decorator";
 import { CommentDto } from "./comment.dto";
 
 @Controller('comment')
@@ -15,10 +14,10 @@ import { CommentDto } from "./comment.dto";
 export class CommentController {
   constructor(@InjectModel(Comment.name) private model: Model<CommentDocument>) {}
 
-  @Roles(UserType.shop, UserType.user)
   @Post()
   async create(@Request() {user}, @Body() dto: CommentDto) {
     try {
+      if(user['type'] != UserType.user || user['type'] != UserType.shop) throw new HttpException('error', 401)
       return await this.model.create({
         user: user['_id'],
         carrier: dto.carrier,
@@ -33,10 +32,11 @@ export class CommentController {
       console.error(error)
     }
   }
-  @Roles(UserType.business)
+
   @Get()
   async view(@Request() {user}) {
     try {
+      if( user['type'] != UserType.business ) throw new HttpException('error', 401)
       return this.model.find({business: user['_id']})
     } catch (error) {
       throw new HttpException(error.message, 500)

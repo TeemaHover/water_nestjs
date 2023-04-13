@@ -9,10 +9,10 @@ export class ProductService {
   constructor(@InjectModel(Product.name) private model: Model<ProductDocument>) {}
 
 
-  async create(dto:ProductDto ) {
+  async create(dto:ProductDto , id: string) {
     try {
       return await this.model.create({
-        business: dto.business,
+        business: id,
         barcode: dto.barcode,
         productName: dto.productName,
         price: dto.price,

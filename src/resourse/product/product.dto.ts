@@ -2,10 +2,7 @@ import { ApiProperty } from "@nestjs/swagger"
 import { IsArray, IsNumber, IsString } from "class-validator"
 
 export class ProductDto {
-  @ApiProperty()
-  @IsString()
-  business: string
-  @ApiProperty()
+
   @IsString()
   categoryId: string
   

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Request, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, HttpException, Param, Post, Request, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
 import { UserType } from "src/utils/enum";
 import { UserAccessGuard } from "../auth/auth.guard";
@@ -13,21 +13,23 @@ import { OrderService } from "./order.service";
 export class OrderController {
   constructor(private service: OrderService) {}
 
-  @Roles(UserType.shop, UserType.user)
-  @Post()
+  @Roles(UserType.shop, UserType.user)  @Post()
   create(@Request() {user}, @Body() dto: OrderDto) {
+    if( user['type'] != UserType.shop || user['type'] != UserType.user ) throw new HttpException('error', 401)
     return this.service.create(dto, user["_id"])
   }
 
   @Roles(UserType.shop, UserType.user)
   @Get('user')
   viewForUsers(@Request() {user}) {
+    if( user['type'] != UserType.shop || user['type'] != UserType.user ) throw new HttpException('error', 401)
     return this.service.viewForUsers( user["_id"])
   }
 
-  @Roles( UserType.business)
+
   @Get('business')
   viewForBusiness(@Request() {user}) {
+    if( user['type'] != UserType.business ) throw new HttpException('error', 401)
     return this.service.viewForBusiness( user["_id"])
   }
 
