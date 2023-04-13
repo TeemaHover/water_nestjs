@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsNumber, IsString } from "class-validator"
+import { IsArray, IsNumber, IsString } from "class-validator"
 
 export class ProductDto {
   @ApiProperty()
@@ -26,7 +26,8 @@ export class ProductDto {
   @IsNumber()
   price: number  
 
-  @ApiProperty({type: Array})
+  @ApiProperty()
+  @IsArray()
   images: string[]
 
 }

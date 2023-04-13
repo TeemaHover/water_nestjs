@@ -7,7 +7,7 @@ export class CategoryDto {
   @IsString()
   categoryName: string
 
-  @ApiProperty({type: Array})
+  @ApiProperty()
   @IsArray()
   problems: []
 }

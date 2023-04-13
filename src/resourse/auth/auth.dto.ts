@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 
 import { UserStatus, UserType, WorkStatus } from 'src/utils/enum';
 
@@ -42,7 +42,8 @@ export class RegisterDto {
   @ApiProperty({ type: Location })
   location?: Location;
 
-  @ApiProperty({ type: Array })
+  @ApiProperty()
+  @IsArray()
   carriers?: [];
 
   @ApiProperty({ type: CarrierDetailDto })
