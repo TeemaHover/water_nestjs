@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document } from "mongoose";
+import { Order } from "./order.schema";
 import { Product } from "./product.schema";
 import { User } from "./user.schema";
 
@@ -22,6 +23,9 @@ export class Comment  {
 
     @Prop({type: mongoose.Types.ObjectId, ref: 'products'})
     product: Product
+
+@Prop({type: mongoose.Types.ObjectId, ref: 'orders'})
+    order: Order
 
     @Prop({type: mongoose.Types.ObjectId, ref: 'users'})
     carrier: User

@@ -26,4 +26,7 @@ export class ProductDto {
   @IsNumber()
   price: number  
 
+  @ApiProperty({type: Array})
+  images: string[]
+
 }

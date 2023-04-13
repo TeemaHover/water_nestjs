@@ -19,7 +19,32 @@ export class ProductService {
         categoryId: dto.categoryId,
         unit: dto.unit,
         minUnit: dto.minUnit,
+        images: dto.images
       })
+    } catch (error) {
+      throw new HttpException(error.message, 500)
+      console.error(error)
+    }
+  }
+
+  async update(dto: ProductDto, id: string) {
+    try {
+      let order = await this.model.updateOne({'_id': id}, {
+        $set: {
+          barcode: dto.barcode, 
+          price: dto.price, 
+          productName: dto.productName, 
+          categoryId: dto.categoryId, 
+          unit: dto.unit, 
+          minUnit: dto.minUnit, 
+          images: dto.images
+        }
+      })
+      if(order) {
+        return true
+      } else {
+        return false
+      }
     } catch (error) {
       throw new HttpException(error.message, 500)
       console.error(error)

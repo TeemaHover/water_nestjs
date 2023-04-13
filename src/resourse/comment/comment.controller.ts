@@ -26,6 +26,7 @@ export class CommentController {
         problem: dto.problem,
         product: dto.product,
         message: dto.message,
+        order: dto.order,
       })
     } catch (error) {
       throw new HttpException(error.message, 500)

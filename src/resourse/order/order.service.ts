@@ -2,6 +2,7 @@ import { HttpException, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Order, OrderDocument } from "src/schema";
+import { OrderStatus } from "src/utils/enum";
 import { OrderDto } from "./order.dto";
 
 @Injectable()
@@ -37,6 +38,24 @@ export class OrderService {
   async viewForBusiness(userId: string) {
     try {
       return await this.model.find({business: userId})
+    } catch (error) {
+      throw new HttpException(error.message, 500)
+      console.error(error)
+    }
+  }
+
+  async updateOrderStatus(userId: string, status: OrderStatus, id: string) {
+    try {
+      let order = await this.model.updateOne({business: userId, _id: id}, {
+        $set: {status: status}
+      }) 
+      if(order)
+      {
+        return true
+      }
+      else {
+        return false
+      }
     } catch (error) {
       throw new HttpException(error.message, 500)
       console.error(error)

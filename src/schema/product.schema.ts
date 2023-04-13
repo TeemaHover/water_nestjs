@@ -27,6 +27,9 @@ export class Product  {
   @Prop()
   productName: string  
 
+  @Prop({type: mongoose.Types.Array})
+  images: string[]
+
   @Prop()
   barcode: number  
 

@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, Request, UseGuards } from "@nestjs/common";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
 import { UserType } from "src/utils/enum";
 import { UserAccessGuard } from "../auth/auth.guard";
 import { Roles } from "../auth/decorators/roles.decorator";
@@ -29,5 +29,12 @@ export class OrderController {
   @Get('business')
   viewForBusiness(@Request() {user}) {
     return this.service.viewForBusiness( user["_id"])
+  }
+
+  @Get('status/:status/:id')
+  @ApiParam({name: 'status'})
+  @ApiParam({name: 'id'})
+  updateOrderStatus(@Request() {user}, @Param('status') status, @Param('id') id) {
+    return this.service.updateOrderStatus(user['_id'], status, id)
   }
 }

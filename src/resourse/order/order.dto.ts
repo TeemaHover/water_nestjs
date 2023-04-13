@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger"
 import { IsNumber, IsString } from "class-validator"
-import { Location } from "../auth/auth.dto"
 import { OrderStatus } from "src/utils/enum"
+import { Location } from "../auth/auth.dto"
 
 export class OrderDetailDto {
   @ApiProperty()
@@ -15,6 +15,10 @@ export class OrderDto {
   @ApiProperty()
   @IsString()
   business: string
+
+  @ApiProperty()
+  @IsString()
+  order: string
   
 
   @ApiProperty({type: [OrderDetailDto]})
