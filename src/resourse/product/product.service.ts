@@ -60,9 +60,18 @@ export class ProductService {
     }
   }
 
-  async viewByBardcode( code: number) {
+  async viewByBarcode( code: number) {
     try {
       return await this.model.findOne({barcode: code})
+    } catch (error) {
+      throw new HttpException(error.message, 500)
+      console.error(error)
+    }
+  }
+
+  async viewById( id: string) {
+    try {
+      return await this.model.findById(id)
     } catch (error) {
       throw new HttpException(error.message, 500)
       console.error(error)
