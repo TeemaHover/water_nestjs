@@ -13,13 +13,13 @@ import { OrderService } from "./order.service";
 export class OrderController {
   constructor(private service: OrderService) {}
 
-  @Roles(UserType.shop, UserType.user)  @Post()
+   @Post()
   create(@Request() {user}, @Body() dto: OrderDto) {
     if( user['type'] != UserType.shop || user['type'] != UserType.user ) throw new HttpException('error', 401)
     return this.service.create(dto, user["_id"])
   }
 
-  @Roles(UserType.shop, UserType.user)
+  // @Roles(UserType.shop, UserType.user)
   @Get('user')
   viewForUsers(@Request() {user}) {
     if( user['type'] != UserType.shop || user['type'] != UserType.user ) throw new HttpException('error', 401)
