@@ -34,7 +34,7 @@ export class OrderService {
 
   async viewForBusiness(userId: string) {
     try {
-      let orders = await this.model.find({ business: userId });
+      let orders = await this.model.find({ business: userId.toString() });
       if (!orders) return [];
       return orders;
     } catch (error) {
