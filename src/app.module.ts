@@ -5,6 +5,9 @@ import appConfig from './config/app.config';
 import { AuthModule } from './resourse/auth/auth.module';
 import { CertificateModule } from './resourse/certificate/certificate.module';
 import { EventModule } from './resourse/event/event.module';
+import { LocationModule } from './resourse/location/location.module';
+import { OrderModule } from './resourse/order/order.module';
+import { PaymentModule } from './resourse/payment/payment.module';
 import { UserModule } from './resourse/user/user.module';
 import { VoluntaryModule } from './resourse/voluntary/voluntary.module';
 @Module({
@@ -21,7 +24,8 @@ import { VoluntaryModule } from './resourse/voluntary/voluntary.module';
       useUnifiedTopology: true, 
       dbName: appConfig().dbName
     }),
-    UserModule, AuthModule, VoluntaryModule, EventModule , CertificateModule
+    UserModule, AuthModule, VoluntaryModule, EventModule , CertificateModule,
+    PaymentModule, OrderModule, LocationModule
     
     ],
   controllers: [],

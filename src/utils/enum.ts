@@ -18,3 +18,17 @@ export enum UserStatus {
 
   banned = 'banned'
 }
+
+export enum UserRank {
+  bronze = 'bronze',
+  silver = 'silver',
+}
+
+export enum BusinessRank {
+  bronze = 'bronze',
+}
+
+export enum EventTypes {
+  price = 'price',
+  product = 'product',
+}

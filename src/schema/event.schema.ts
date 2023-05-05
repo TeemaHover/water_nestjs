@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document } from "mongoose";
+import { EventTypes } from "src/utils/enum";
+import { Certificate } from "./certificate.schema";
 import { Voluntary } from "./voluntary.schema";
 
 
@@ -17,6 +19,18 @@ export class Event  {
 
     @Prop()
     expiredTime: number
+
+    @Prop([Certificate])
+    certificate: Certificate[]
+
+    @Prop()
+    xp: number
+
+    @Prop()
+    price: number
+
+    @Prop({type: 'String' , enum: EventTypes, default: EventTypes.price})
+    type: EventTypes
 
 }
 

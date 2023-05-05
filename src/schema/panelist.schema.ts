@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
+import mongoose, { Document } from "mongoose";
 import { UserStatus, UserType } from "src/utils/enum";
+import { Location } from "./location.schema";
 
 
 export type PanelistDocument = Document & Panelist
@@ -26,6 +27,12 @@ export class Panelist  {
 
   @Prop({ type: String, enum: UserStatus,  required: true })
   status?: UserStatus;
+
+  @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'Location'})
+  location: Location
+
+  @Prop([Location])
+  locations: Location[]
 
 }
 

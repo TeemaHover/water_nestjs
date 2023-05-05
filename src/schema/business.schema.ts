@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
-import { UserStatus, UserType } from "src/utils/enum";
+import { BusinessRank, UserStatus, UserType } from "src/utils/enum";
+import { Certificate } from "./certificate.schema";
 
 
 export type BusinessDocument = Document & Business
@@ -28,6 +29,15 @@ export class Business  {
 
   @Prop({ type: String, enum: UserStatus,  required: true })
   status?: UserStatus;
+
+  @Prop({default: 0})
+  xp?: number
+  
+  @Prop([Certificate])
+  certificates?: Certificate[]
+  
+  @Prop({type: String, enum: BusinessRank, default: BusinessRank.bronze})
+  businessRank?: BusinessRank
 
 }
 
