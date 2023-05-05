@@ -1,32 +1,34 @@
-import { HttpException, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
+import { HttpException, Injectable } from "@nestjs/common";
 import * as bcrypt from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import { Model } from 'mongoose';
-import appConfig from 'src/config/app.config';
-import { User, UserDocument } from 'src/schema/user.schema';
-import { UserDto } from '../auth/auth.dto';
+import appConfig from "src/config/app.config";
 
-@Injectable()
-export class UserService {
-  constructor(@InjectModel(User.name) private model: Model<UserDocument>) {}
+import { InjectModel } from "@nestjs/mongoose";
+import { Panelist, PanelistDocument } from "src/schema";
+import { UserType } from "src/utils/enum";
+import { PanelistDto } from "../auth/auth.dto";
 
+@Injectable() 
+export class PanelistService {
+  constructor(@InjectModel(Panelist.name) private readonly model: Model<PanelistDocument>) {}
   async signPayload(payload) {
     return sign({ name: payload }, appConfig().appSecret, {
       expiresIn: 60 * 60 * 24 * 7,
     });
   }
-  async validateUser(payload: string): Promise<User> {
+  async validatePanelist(payload: string) {
   
     return await this.model.findOne({ phone: payload });
   }
-  async createUser(dto: UserDto) {
+
+  async createPanelist(dto: PanelistDto) {
     try {
 
       const hashed = await bcrypt.hash(dto.password, 10);
       let user = await this.model.create({
-        lastName: dto.lastName,
-        firstName: dto.firstName,
+        companyName: dto.companyName,
+        registerNumber: dto.registerNumber,
         password: hashed,
         status: dto.status,
         phone: dto.phone,
@@ -39,9 +41,4 @@ export class UserService {
       console.error(error)
     }
   }
-
-  
-
-
-
 }

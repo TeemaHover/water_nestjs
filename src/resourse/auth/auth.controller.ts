@@ -1,9 +1,9 @@
-import { Controller, Post } from '@nestjs/common';
-import { Body } from '@nestjs/common/decorators';
+import { Body, Controller, Post } from '@nestjs/common';
+
 import { HttpStatus } from '@nestjs/common/enums';
 import { HttpException } from '@nestjs/common/exceptions';
 import { ApiTags } from '@nestjs/swagger';
-import { LoginDto, RegisterDto } from './auth.dto';
+import { BusinessDto, LoginDto, PanelistDto, UserDto } from './auth.dto';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -11,10 +11,26 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private readonly service: AuthService) {}
   
-  @Post('register')
-  async register(@Body() dto: RegisterDto) {
+  @Post('user')
+  async registerUser(@Body() dto: UserDto) {
     try {
-      return this.service.register(dto)
+      return this.service.registerUser(dto)
+    } catch (e) {
+      throw new HttpException(e.message, HttpStatus.FORBIDDEN);
+    }
+  }
+  @Post('business')
+  async registerBusiness(@Body() dto: BusinessDto) {
+    try {
+      return this.service.registerBusiness(dto)
+    } catch (e) {
+      throw new HttpException(e.message, HttpStatus.FORBIDDEN);
+    }
+  }
+  @Post('panelist')
+  async registerPanelist(@Body() dto: PanelistDto) {
+    try {
+      return this.service.registerPanelist(dto)
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.FORBIDDEN);
     }

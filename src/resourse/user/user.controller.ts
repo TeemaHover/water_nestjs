@@ -6,6 +6,8 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserAccessGuard } from '../auth/auth.guard';
+import { BusinessService } from './business.service';
+import { PanelistService } from './panelist.service';
 import { UserService } from './user.service';
 
 
@@ -17,7 +19,7 @@ import { UserService } from './user.service';
 @ApiBearerAuth('access-token')
 
 export class UserController {
-  constructor(private readonly service: UserService) {}
+  constructor(private readonly user: UserService, private readonly panelist: PanelistService, private readonly business: BusinessService ) {}
 
   @Get('me')
   getData(@Request() {user}) {
