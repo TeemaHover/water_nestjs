@@ -1,12 +1,12 @@
 import { HttpException, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from 'mongoose';
-import { Event, EventDocument } from "src/schema";
+import { Business, BusinessDocument, Event, EventDocument } from "src/schema";
 import { UserType } from "src/utils/enum";
 import { EventDto } from "./event.dto";
 @Injectable() 
 export class EventService {
-  constructor(@InjectModel(Event.name) private readonly model: Model<EventDocument>) {}
+  constructor(@InjectModel(Event.name) private readonly model: Model<EventDocument>, @InjectModel(Business.name) private readonly business: Model<BusinessDocument>) {}
   async createEvent(dto: EventDto, user: string) {
     try {
       return await this.model.create({
@@ -21,7 +21,7 @@ export class EventService {
   }
   async getEvent() {
     try {
-      return await this.model.find({endDate: {$gte: Date.now()}})
+      return await this.model.find({endDate: {$gte: Date.now()}}).populate('business', '_id  companyName', this.business)
     } catch (error) {
       throw new HttpException(error.message, 500);
     }
