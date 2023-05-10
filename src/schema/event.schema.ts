@@ -44,6 +44,9 @@ export class Event  {
     @Prop()
     name: string
 
+    @Prop()
+    description: string
+
     @Prop({type: mongoose.Types.ObjectId, ref: 'Business'})
     business: Business
 

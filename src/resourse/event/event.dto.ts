@@ -32,6 +32,8 @@ export class EventDto {
   @ApiProperty()
   name: string
   @ApiProperty()
+  description: string
+  @ApiProperty()
   members: number
   @ApiProperty()
   registerMembers: number

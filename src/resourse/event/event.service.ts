@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import mongoose, { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { Event, EventDocument } from "src/schema";
 import { UserType } from "src/utils/enum";
 import { EventDto } from "./event.dto";
@@ -12,7 +12,7 @@ export class EventService {
       return await this.model.create({
         ...dto,
         business: user,
-        voluntary: mongoose.Types.ObjectId(dto.voluntary),
+        voluntary: '64556342dc0d123c01c27f50',
 
       })
     } catch (error) {
