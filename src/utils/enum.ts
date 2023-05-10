@@ -28,7 +28,10 @@ export enum BusinessRank {
   bronze = 'bronze',
 }
 
-export enum EventTypes {
+
+
+export enum SaleTypes {
   price = 'price',
-  product = 'product',
+  voucher = 'voucher',
+  certificate = 'certificate',
 }

@@ -39,6 +39,14 @@ export class UserService {
       console.error(error)
     }
   }
+  async addXp(id: string, ) {
+    try {
+      await this.model.findByIdAndUpdate(id, { $inc: { xp: 1 } })
+     
+    } catch (error) {
+      throw new HttpException(error.message, 500)
+    }
+  }
 
   
 

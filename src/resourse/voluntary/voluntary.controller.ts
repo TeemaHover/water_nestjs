@@ -1,15 +1,19 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 
 import { HttpStatus } from '@nestjs/common/enums';
 import { HttpException } from '@nestjs/common/exceptions';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserType } from 'src/utils/enum';
+import { UserAccessGuard } from '../auth/auth.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { VoluntaryDto } from './voluntary.dto';
 import { VoluntaryService } from './voluntary.service';
 
 @Controller('voluntary')
 @ApiTags('Voluntary')
+@UseGuards(UserAccessGuard)
+@ApiBearerAuth('access-token')
+
 export class VoluntaryController {
   constructor(private readonly service: VoluntaryService) {}
   

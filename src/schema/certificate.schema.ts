@@ -7,6 +7,9 @@ export type CertificateDocument = Document & Certificate
 export class Requirements {
   @Prop()
   name: string
+
+  // @Prop()
+  // value: string
 }
 
 @Schema({timestamps: true})

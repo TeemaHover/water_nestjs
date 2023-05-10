@@ -1,15 +1,19 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 
 import { HttpStatus } from '@nestjs/common/enums';
 import { HttpException } from '@nestjs/common/exceptions';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserType } from 'src/utils/enum';
+import { UserAccessGuard } from '../auth/auth.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { PaymentDto } from './payment.dto';
 import { PaymentService } from './payment.service';
 
 @Controller('payment')
 @ApiTags('Payment')
+@UseGuards(UserAccessGuard)
+@ApiBearerAuth('access-token')
+
 export class PaymentController {
   constructor(private readonly service: PaymentService) {}
   
