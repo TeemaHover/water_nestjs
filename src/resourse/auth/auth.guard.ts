@@ -2,6 +2,8 @@ import { ExecutionContext, Injectable, Logger } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import * as jwt from "jsonwebtoken";
 import appConfig from "src/config/app.config";
+import { BusinessService } from "../user/business.service";
+import { PanelistService } from "../user/panelist.service";
 import { UserService } from "../user/user.service";
 type UserDecoded = {
     userId: string;
@@ -11,6 +13,8 @@ type UserDecoded = {
 export class UserAccessGuard {
   constructor(
     private userService: UserService,
+    private business: BusinessService,
+    private panelist: PanelistService,
 
     private reflector: Reflector) { }
   logger = new Logger();
@@ -28,7 +32,9 @@ export class UserAccessGuard {
       const token = header.split(" ")[1];
       const decoded = jwt.verify(token, appConfig().appSecret)  ;
   
-      const user = await this.userService.validateUser(decoded['phone'] );
+      let user = await this.userService.validateUser(decoded['phone'] );
+      if (!user) user = await this.business.validateBusiness(decoded['phone'] );
+      if (!user) user = await this.panelist.validatePanelist(decoded['phone'] );
 
       request['user'] = user;
   

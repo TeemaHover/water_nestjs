@@ -15,7 +15,7 @@ export class BusinessService {
     });
   }
   async validateBusiness(payload: string){
-  
+
     return await this.model.findOne({ phone: payload });
   }
 

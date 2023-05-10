@@ -14,6 +14,7 @@ export class AuthService {
 
   async login(dto: LoginDto) {
     let user = await this.userService.validateUser(dto.phone);
+    
     if(!user) user = await this.panelistService.validatePanelist(dto.phone);
     if(!user) user = await this.businessService.validateBusiness(dto.phone);
     if(!user) return {
