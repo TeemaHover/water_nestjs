@@ -35,6 +35,7 @@ export class EventService {
       if(event) return true
       else return false
     } catch (error) {
+      console.error(error.message)
       throw new HttpException(error.message, 500)
     }
   }
