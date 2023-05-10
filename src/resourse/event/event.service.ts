@@ -30,7 +30,7 @@ export class EventService {
     try {
       let event = await this.model.findById(id)
       if(!event) throw new HttpException("Event not found", 404)
-      if(event.members >= event.registerMembers+2) throw new HttpException("Event is full", 400)
+      if(event.members >= Number.parseInt(event.registerMembers)+2) throw new HttpException("Event is full", 400)
       event =  await this.model.findByIdAndUpdate(id, { $inc: { registerMembers: 1 }, $push : {users: user} })
       if(event) return true
       else return false
