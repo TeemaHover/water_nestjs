@@ -6,7 +6,7 @@ import { UserType } from "src/utils/enum";
 import { EventDto } from "./event.dto";
 @Injectable() 
 export class EventService {
-  constructor(@InjectModel(Event.name) private readonly model: Model<EventDocument>, @InjectModel(Business.name) private readonly business: Model<BusinessDocument>) {}
+  constructor(@InjectModel(Event.name) private readonly model: Model<EventDocument>, @InjectModel(Business.name) private  business: Model<BusinessDocument>) {}
   async createEvent(dto: EventDto, user: string) {
     try {
       return await this.model.create({
@@ -21,7 +21,7 @@ export class EventService {
   }
   async getEvent() {
     try {
-      return await this.model.find({endDate: {$gte: Date.now()}}).populate('business', '_id  companyName', this.business)
+      return await this.model.find({endDate: {$gte: Date.now()}}).populate('business', 'id  companyName', this.business)
     } catch (error) {
       throw new HttpException(error.message, 500);
     }
