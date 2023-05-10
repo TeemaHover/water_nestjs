@@ -21,7 +21,7 @@ export class EventService {
   }
   async getEvent() {
     try {
-      return await this.model.find({endDate: {$gte: Date.now()/1000}}).populate('business', '_id  companyName', this.business)
+      return await this.model.find({endDate: {$gte: Date.now()}}).populate('business', '_id  companyName', this.business)
     } catch (error) {
       throw new HttpException(error.message, 500);
     }
