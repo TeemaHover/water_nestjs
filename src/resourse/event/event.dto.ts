@@ -46,9 +46,9 @@ export class EventDto {
   @ApiProperty() 
   exec: string
   @ApiProperty({type: ExecEventDto, isArray: true}) 
-  execEvent: ExecEventDto
+  execEvent: ExecEventDto[]
   @ApiProperty({type: SaleDto, isArray: true}) 
-  sale: SaleDto
+  sale: SaleDto[]
 }
 
 

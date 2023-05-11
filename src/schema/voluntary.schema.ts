@@ -12,11 +12,27 @@ export class Info {
     @Prop()
     image: string
 }
+export class Items {
+    @Prop()
+    title: string
+    @Prop()
+    unitPrice: number
+    @Prop()
+    symbol: string
+    @Prop()
+    items: [{
+        title: string
+    }]
+
+}
 @Schema({timestamps: true})
 export class Voluntary  {
     
     @Prop()
     name: string
+
+    @Prop([Items])
+    items: Items[]
 
     @Prop([Info])
     info: Info[]

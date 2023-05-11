@@ -1,7 +1,5 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 
-import { HttpStatus } from '@nestjs/common/enums';
-import { HttpException } from '@nestjs/common/exceptions';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserType } from 'src/utils/enum';
 import { UserAccessGuard } from '../auth/auth.guard';
@@ -17,24 +15,21 @@ import { PaymentService } from './payment.service';
 export class PaymentController {
   constructor(private readonly service: PaymentService) {}
   
-  @Roles(UserType.panelist)
+  @Roles(UserType.panelist, UserType.user)
   @Post()
-  createPayment(@Body() dto: PaymentDto) {
-    try {
-      return this.service.createPayment(dto)
-    } catch (e) {
-      throw new HttpException(e.message, HttpStatus.FORBIDDEN);
-    }
+  createPayment(@Body() dto: PaymentDto, @Request() {user}) {
+    
+      return this.service.createPayment(dto, user)
+    
   }
+
 
   @Get()
   @Roles(UserType.user, UserType.panelist)
-  getCertificate() {
-    try {
-      return this.service.getPayment()
-    } catch (e) {
-      throw new HttpException(e.message, HttpStatus.FORBIDDEN);
-    }
+  getPayment(@Request() {user}) {
+   
+      return this.service.getPayment(user)
+    
   }
   
 
