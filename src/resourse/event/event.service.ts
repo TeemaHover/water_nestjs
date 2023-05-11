@@ -6,14 +6,10 @@ import { UserType } from 'src/utils/enum';
 import { EventDto } from './event.dto';
 @Injectable()
 export class EventService {
-<<<<<<< HEAD
-  constructor(@InjectModel(Event.name) private readonly model: Model<EventDocument>, @InjectModel(Business.name) private  businessModel: Model<BusinessDocument>) {}
-=======
   constructor(
     @InjectModel(Event.name) private readonly model: Model<EventDocument>,
     @InjectModel(Business.name) private business: Model<BusinessDocument>,
   ) {}
->>>>>>> 394864c6c4b3e473f72ce8eb4d7e64b1b43d0141
   async createEvent(dto: EventDto, user: string) {
     try {
       return await this.model.create({
