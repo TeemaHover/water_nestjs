@@ -6,6 +6,7 @@ import { Model } from 'mongoose';
 import appConfig from 'src/config/app.config';
 import { User, UserDocument } from 'src/schema/user.schema';
 import { UserDto } from '../auth/auth.dto';
+import { UserStatus, UserType } from 'src/utils/enum';
 
 @Injectable()
 export class UserService {
@@ -17,39 +18,30 @@ export class UserService {
     });
   }
   async validateUser(payload: string): Promise<User> {
-  
     return await this.model.findOne({ phone: payload });
   }
   async createUser(dto: UserDto) {
     try {
-
       const hashed = await bcrypt.hash(dto.password, 10);
       let user = await this.model.create({
-        lastName: dto.lastName,
         firstName: dto.firstName,
         password: hashed,
-        status: dto.status,
+        status: UserStatus.active,
         phone: dto.phone,
-        type: dto.type,
-      })
-     
-      return user 
+        type: UserType.user,
+      });
+
+      return user;
     } catch (error) {
       throw new HttpException(error, 500);
-      console.error(error)
+      console.error(error);
     }
   }
-  async addXp(id: string, ) {
+  async addXp(id: string) {
     try {
-      await this.model.findByIdAndUpdate(id, { $inc: { xp: 1 } })
-     
+      await this.model.findByIdAndUpdate(id, { $inc: { xp: 1 } });
     } catch (error) {
-      throw new HttpException(error.message, 500)
+      throw new HttpException(error.message, 500);
     }
   }
-
-  
-
-
-
 }
