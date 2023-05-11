@@ -1,5 +1,4 @@
 export enum UserType {
-
   business = 'business',
 
   panelist = 'panelist',
@@ -7,16 +6,23 @@ export enum UserType {
   user = 'user',
 
   // system
-  system = 'system'
+  system = 'system',
 }
 
 export enum UserStatus {
- 
-  pending = "pending",
- 
+  pending = 'pending',
+
   active = 'active',
 
-  banned = 'banned'
+  banned = 'banned',
+}
+
+export enum PaymentStatus {
+  pending = 'pending',
+
+  active = 'active',
+
+  denied = 'denied',
 }
 
 export enum UserRank {
@@ -27,8 +33,6 @@ export enum UserRank {
 export enum BusinessRank {
   bronze = 'bronze',
 }
-
-
 
 export enum SaleTypes {
   price = 'price',
