@@ -24,7 +24,7 @@ export class UserService {
     try {
       const hashed = await bcrypt.hash(dto.password, 10);
       let user = await this.model.create({
-        firstName: dto.firstName,
+        lastName: dto.lastName,
         password: hashed,
         status: UserStatus.active,
         phone: dto.phone,
