@@ -43,11 +43,13 @@ export class EventService {
         $inc: { registerMembers: 1 },
         $push: { users: user },
       });
-      if (event) return true;
-      else return false;
+      if (event) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (error) {
-      console.error(error.message);
-      throw new HttpException(error.message, 500);
+      return false;
     }
   }
 

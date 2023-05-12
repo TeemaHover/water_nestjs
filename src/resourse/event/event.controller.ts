@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
 import { UserType } from 'src/utils/enum';
@@ -12,39 +20,35 @@ import { EventService } from './event.service';
 @ApiTags('Event')
 @UseGuards(UserAccessGuard)
 @ApiBearerAuth('access-token')
-
 export class EventController {
-  constructor(private readonly service: EventService, private readonly user: UserService) {}
-  
+  constructor(
+    private readonly service: EventService,
+    private readonly user: UserService,
+  ) {}
+
   @Roles(UserType.business)
   @Post()
-   createEvent(@Request() {user}, @Body() dto: EventDto) {
- 
-      return this.service.createEvent(dto, user['_id'])
-   
+  createEvent(@Request() { user }, @Body() dto: EventDto) {
+    return this.service.createEvent(dto, user['_id']);
   }
 
   @Get()
-   getEvent() {
-  
-      return this.service.getEvent()
-  
+  getEvent() {
+    return this.service.getEvent();
   }
-  
-  @Get(":id")
-  getEventByBusiness(@Param('id') id: string, @Request() {user}) {
-    return this.service.getEventByBusiness(id, user['type'])
+
+  @Get(':id')
+  getEventByBusiness(@Param('id') id: string, @Request() { user }) {
+    return this.service.getEventByBusiness(id, user['type']);
   }
   @Roles(UserType.user)
-  @Get("member/:id")
-  @ApiParam({name:"id"})
-  addMemberEvent(@Request() {user}, @Param('id') id: string) {
-    let event = this.service.addMemberEvent(id, user['_id'])
-    if(event)  this.user.addXp(user['_id'])
-    return event
+  @Get('member/:id')
+  @ApiParam({ name: 'id' })
+  addMemberEvent(@Request() { user }, @Param('id') id: string) {
+    let event = this.service.addMemberEvent(id, user['_id']);
+    if (event) {
+      this.user.addXp(user['_id']);
+    }
+    return event;
   }
-  
-
-
-
 }
