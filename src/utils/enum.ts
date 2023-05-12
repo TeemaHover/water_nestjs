@@ -39,3 +39,8 @@ export enum SaleTypes {
   voucher = 'voucher',
   certificate = 'certificate',
 }
+
+export enum InfoRank {
+  mongol = 'mongol',
+  world = 'world',
+}

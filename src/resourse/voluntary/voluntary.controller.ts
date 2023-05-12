@@ -13,15 +13,14 @@ import { VoluntaryService } from './voluntary.service';
 @ApiTags('Voluntary')
 @UseGuards(UserAccessGuard)
 @ApiBearerAuth('access-token')
-
 export class VoluntaryController {
   constructor(private readonly service: VoluntaryService) {}
-  
+
   @Roles(UserType.system)
   @Post()
-   createVoluntary(@Body() dto: VoluntaryDto) {
+  createVoluntary(@Body() dto: VoluntaryDto) {
     try {
-      return this.service.createVoluntary(dto)
+      return this.service.createVoluntary(dto);
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.FORBIDDEN);
     }
@@ -29,21 +28,32 @@ export class VoluntaryController {
 
   @Get()
   @Roles(UserType.business)
-   getVoluntary() {
+  getVoluntary() {
     try {
-      return this.service.getVoluntary()
+      return this.service.getVoluntary();
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.FORBIDDEN);
     }
   }
 
-  @Post('info/:id')
-  @ApiParam({name: 'id'})
-  @Roles(UserType.system)
-  addInfo(@Param('id') id: string, @Body() dto: InfoDto[]) {
-    return this.service.addInfo(id, dto)
+  @Get('rank/:rank')
+  @ApiParam({ name: 'rank' })
+  async getInfo(@Param('rank') rank: string) {
+    let info = [];
+    await this.service.getInfo(rank).then((d) => {
+      if (d.length > 0) {
+        info = d[0].info;
+      } else {
+        info = [];
+      }
+    });
+    return info;
   }
-  
 
-
+  @Post('info/:id')
+  @ApiParam({ name: 'id' })
+  @Roles(UserType.system)
+  addInfo(@Param('id') id: string, @Body() dto: InfoDto) {
+    return this.service.addInfo(id, dto);
+  }
 }

@@ -1,28 +1,33 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
+import { InfoRank } from 'src/utils/enum';
 
 export class InfoDto {
   @ApiProperty()
-  name: string
+  name: string;
   @ApiProperty()
-  description: string
+  description: string;
   @ApiProperty()
-  image: string
-  
+  image: string;
+  @ApiProperty()
+  level: number;
+  @ApiProperty()
+  date: number;
+  @ApiProperty({ type: String, enum: InfoRank })
+  rank: string;
 }
 export class ItemDto {
   @ApiProperty()
-  title: string
+  title: string;
   @ApiProperty()
-  unitPrice: number
+  unitPrice: number;
   @ApiProperty()
-  symbol: string
-  
+  symbol: string;
 }
 export class VoluntaryDto {
   @ApiProperty()
-  name: string
-  @ApiProperty({type: InfoDto, isArray: true})
-  info: InfoDto[]
-  @ApiProperty({type: ItemDto, isArray: true})
-  items: ItemDto[]
+  name: string;
+  @ApiProperty({ type: InfoDto, isArray: true })
+  info: InfoDto[];
+  @ApiProperty({ type: ItemDto, isArray: true })
+  items: ItemDto[];
 }

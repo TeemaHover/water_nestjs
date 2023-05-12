@@ -24,8 +24,16 @@ export class VoluntaryService {
       throw new HttpException(error.message, 500);
     }
   }
-
-  async addInfo(id: string, dto: InfoDto[]) {
+  async getInfo(rank: string) {
+    try {
+      return await this.model
+        .find({ 'info.rank': { $in: [rank] } })
+        .select('info');
+    } catch (error) {
+      throw new HttpException(error.message, 500);
+    }
+  }
+  async addInfo(id: string, dto: InfoDto) {
     try {
       return await this.model.updateOne(
         { id: id },
